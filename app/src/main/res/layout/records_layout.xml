@@ -14,8 +14,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_gravity="center_horizontal">
+            android:orientation="vertical" >
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -81,7 +80,7 @@
                         <ListView
                             android:id="@+id/list"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="450dp"
                             android:divider="@null"
                             android:dividerHeight="0dp">
 
@@ -91,11 +90,11 @@
                             android:id="@+id/norecord"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
                             android:text="No Records"
                             android:textColor="#9000"
                             android:textSize="20sp"
-                            android:visibility="invisible" />
+                            android:visibility="visible"
+                            android:layout_centerInParent="true" />
 
                     </RelativeLayout>
 

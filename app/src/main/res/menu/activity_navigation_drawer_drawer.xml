@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item android:title="Actions">
+        <menu>
+            <item
+                android:id ="@+id/lendborrow"
+                android:icon ="@drawable/ic_compare_arrows_black_24dp"
+                android:title = "Lend and Borrow" />
+            <item
+                android:id="@+id/budget"
+                android:icon="@drawable/ic_business_center_black_24dp"
+                android:title="Budget">
+
+            </item>
+        </menu>
+    </item>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/about"
+                android:icon="@drawable/ic_about"
+                android:title="About" />
+            <item
+                android:id="@+id/feedback"
+                android:icon="@drawable/ic_feedback"
+                android:title="Feedback" />
+        </menu>
+    </item>
+
+</menu>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <Spinner
+        android:id="@+id/categories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginHorizontal="10dp"
+        android:padding="15dp"/>
+
+    <EditText
+        android:id="@+id/amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint=" Enter Amount"
+        android:textSize="18sp"
+        android:layout_marginHorizontal="10dp"
+        android:maxLines="1"
+        android:inputType="number"
+        android:padding="15dp"
+        android:drawablePadding="3dp"
+        android:drawableLeft="@drawable/amount"
+        android:layout_marginBottom="7dp"/>
+
+    <EditText
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint=" To/From"
+        android:textSize="18sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginHorizontal="10dp"
+        android:maxLines="1"
+        android:inputType="text"
+        android:padding="15dp"
+        android:drawablePadding="3dp"
+        android:drawableLeft="@drawable/ic_tag" />
+
+    <Spinner
+        android:id="@+id/cashcredit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginHorizontal="10dp"
+        android:padding="15dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp">
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_bg"
+            android:clickable="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="2dp"
+            android:padding="8dp"
+            android:text="CANCEL"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_bg"
+            android:clickable="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="2dp"
+            android:padding="8dp"
+            android:text="ADD"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+</LinearLayout>

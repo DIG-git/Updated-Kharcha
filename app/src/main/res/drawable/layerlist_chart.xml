@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+
+        <layer-list>
+
+            <item>
+
+                <shape>
+
+                    <stroke
+                        android:color="@color/white"
+                        android:width="4dp">
+                    </stroke>
+
+                </shape>
+
+            </item>
+
+            <item
+                android:bottom="2dp">
+
+                <color
+                    android:color="@color/colorPrimary">
+                </color>
+
+            </item>
+
+        </layer-list>
+
+    </item>
+
+</selector>

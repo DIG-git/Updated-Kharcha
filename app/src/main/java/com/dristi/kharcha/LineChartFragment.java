@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
 
@@ -32,9 +34,17 @@ public class LineChartFragment extends Fragment {
 
     DatabaseHelper databaseHelper;
 
+    private ArrayList<Categories_item> categorylist;
+
+    private Categories_adapter Adapter;
+
     SharedPreferences preferences;
 
-    int set;
+    String fromd, tod, categoryVal;
+
+    Spinner categories;
+
+    int i = 0;
 
     @Nullable
     @Override
@@ -43,52 +53,72 @@ public class LineChartFragment extends Fragment {
         View view = inflater.inflate(R.layout.line_chart,null);
 
         houselinechart = view.findViewById(R.id.housechart);
-
-        set = 0;
+        categories = view.findViewById(R.id.categories);
 
         databaseHelper = new DatabaseHelper(getActivity());
 
-        preferences = getActivity().getSharedPreferences("Date",0);
+        preferences = getActivity().getSharedPreferences("ChartDate", 0);
+
+        initlist();
+        Adapter = new Categories_adapter(getActivity(),categorylist);
+        categories.setAdapter(Adapter);
+
+        fromd = preferences.getString("fromd"," ");
+        tod = preferences.getString("tod"," ");
 
 //        if(set == 0){
 //            setDate(preferences.getString("Date",""));
 //            set++;
 //        }
 
-        makechart("Household");
-        makechart("Eating-out");
-        makechart("Grocery");
-        makechart("Personal");
-        makechart("Utilities");
-        makechart("Medical");
-        makechart("Education");
+//        if(i == 0){
+//            i  = 1;
+//            makechart("Household");
+//        }
+
+        Categories_item categoryval = (Categories_item) categories.getSelectedItem();
+        categoryVal = categoryval.getName().toString();
+
+        makechart(categoryVal);
 
         return view;
     }
 
     public void makechart(String category){
 
-        setDate("2019-07-01");
+        setDate(fromd);
 
-        String[] axisData = {"1" , "2", "3" , "4" , "5" };
-        int[] yAxisData =  new int[5];
+        int count = 0;
+        int[] yAxisData =  new int[30];
+        int[] axisData =  new int[30];
 
-        for(int i=0; i<5; i++){
-
-            yAxisData[i] = databaseHelper.getlinecategorytotal(category, getDate());
+        while(tod.compareTo(getDate()) > 0){
+            axisData[count] = count + 1;
+            yAxisData[count] = databaseHelper.getlinecategorytotal(category, getDate());
             setDate(getnewdate(getDate()));
+            count++;
         }
+
+        System.out.println(axisData[5]);
+        System.out.println(yAxisData[0]);
+
+//        for(int i=0; i<5; i++){
+//
+//            yAxisData[i] = databaseHelper.getlinecategorytotal(category, getDate());
+//            setDate(getnewdate(getDate()));
+//        }
 
         List yAxisValues = new ArrayList();
         List axisValues = new ArrayList();
 
         Line line = new Line(yAxisValues).setColor(Color.parseColor("#FFF46E72"));
 
-        for(int i = 0; i<axisData.length; i++){
-            axisValues.add(i,new AxisValue(i).setLabel(axisData[i]));
+        for(int i = 0; i<=count; i++){
+
+            axisValues.add(i,new AxisValue(i).setLabel(String.valueOf(axisData[i])));
         }
 
-        for(int i = 0; i<yAxisData.length;i++){
+        for(int i = 0; i<=count;i++){
             yAxisValues.add(new PointValue(i,yAxisData[i]));
         }
 
@@ -173,4 +203,23 @@ public class LineChartFragment extends Fragment {
     public void setDate(String datevalue){
         date = datevalue;
     }
+
+    private void initlist(){
+
+        categorylist = new ArrayList<>();
+        categorylist.add(new Categories_item("Household",R.drawable.ic_household));
+        categorylist.add(new Categories_item("Eating-out",R.drawable.ic_eating_out));
+        categorylist.add(new Categories_item("Grocery",R.drawable.ic_grocery));
+        categorylist.add(new Categories_item("Personal",R.drawable.ic_personal));
+        categorylist.add(new Categories_item("Utilities",R.drawable.ic_utilities));
+        categorylist.add(new Categories_item("Medical",R.drawable.ic_medical));
+        categorylist.add(new Categories_item("Education",R.drawable.ic_education));
+        categorylist.add(new Categories_item("Entertainment",R.drawable.ic_entertainment));
+        categorylist.add(new Categories_item("Clothing",R.drawable.ic_clothing));
+        categorylist.add(new Categories_item("Transportation",R.drawable.ic_transportation));
+        categorylist.add(new Categories_item("Shopping",R.drawable.ic_shopping));
+        categorylist.add(new Categories_item("Others",R.drawable.savings));
+
+    }
+
 }

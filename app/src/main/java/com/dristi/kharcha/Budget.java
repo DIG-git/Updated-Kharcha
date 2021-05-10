@@ -84,7 +84,6 @@ public class Budget extends AppCompatActivity {
 
     public void addBudget(){
         final Dialog dialog = new Dialog(Budget.this,R.style.Theme_AppCompat_Light_Dialog_Alert);
-        dialog.setTitle("Add Income");
 
         View view = LayoutInflater.from(this).inflate(R.layout.budget_dialog,null);
 

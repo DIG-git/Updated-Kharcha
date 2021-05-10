@@ -3,10 +3,12 @@ package com.dristi.kharcha;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
+import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
 
@@ -210,9 +212,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return info;
     }
 
-    public int getcategorytotal(String category){
+    public int getlinecategorytotal(String category, String date){
 
-        String sql = "Select * from expense where category = '" + category + "'";
+        String sql = "Select * from expense where category = '" + category + "' AND date >= date('" + date + "') AND date < date('" + date + "', '+7 day')";
         Cursor c = getReadableDatabase().rawQuery(sql,null);
         int sum = 0,total = 0;
         while (c.moveToNext()){
@@ -223,9 +225,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return total;
     }
 
-    public int getlinecategorytotal(String category, String date){
+    public int getcategorytotal(String category, String fromd, String tod){
 
-        String sql = "Select * from expense where category = '" + category + "' AND date >= date('" + date + "') AND date < date('" + date + "', '+7 day')";
+        String sql = "Select * from expense where category = '" + category + "' AND date >= date('" + fromd + "') AND date < date('" + tod + "')";
+        Cursor c = getReadableDatabase().rawQuery(sql,null);
+        int sum = 0,total = 0;
+        while (c.moveToNext()){
+            sum = c.getInt(c.getColumnIndex("amount"));
+            total = total + sum;
+        }
+        c.close();
+        return total;
+    }
+
+    public int getChartTotal(String fromd, String tod){
+
+        String sql = "Select * from expense where date >= date('" + fromd + "') AND date < date('" + tod + "')";
         Cursor c = getReadableDatabase().rawQuery(sql,null);
         int sum = 0,total = 0;
         while (c.moveToNext()){
@@ -454,6 +469,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         c.close();
         return list;
     }
+
+//    private boolean isExecuted;
+//    public synchronized void executeOnce() {
+//        if (isExecuted) {
+//            return;
+//        } else {
+//            chartDate = new ArrayList<>();
+//            isExecuted = true;
+//        }
+//    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {

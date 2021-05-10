@@ -1,9 +1,11 @@
 package com.dristi.kharcha;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
@@ -24,6 +27,16 @@ public class PieChartFragment extends Fragment {
 
     DatabaseHelper databaseHelper;
 
+    SharedPreferences preferences;
+
+    String fromd, tod;
+
+    PieChart pieChart;
+
+    PieData data;
+
+    PieDataSet dataSet;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -32,30 +45,24 @@ public class PieChartFragment extends Fragment {
 
         databaseHelper = new DatabaseHelper(getActivity());
 
-        final PieChart pieChart = view.findViewById(R.id.piechart);
+        preferences = getActivity().getSharedPreferences("ChartDate", 0);
 
-        ArrayList Expenses = new ArrayList();
+        pieChart = view.findViewById(R.id.piechart);
 
-        final int[] color = {Color.parseColor("#4DB6AC"), Color.parseColor("#FFF0B33A"), Color.parseColor("#FFEDA667"),
+        ArrayList<PieEntry> entries = new ArrayList<>();
+
+        fromd = preferences.getString("fromd"," ");
+        tod = preferences.getString("tod"," ");
+
+//        Log.d("from",fromd);
+//        Log.d("to",tod);
+
+        final int[] color = {Color.parseColor("#4DB6AC"), Color.parseColor("#FFF0B33A"), Color.parseColor("#FFE682AE"),
                         Color.parseColor("#FF45B4E3"), Color.parseColor("#FFF2E446"), Color.parseColor("#FFF86473"),
                         Color.parseColor("#FFAEACAC"), Color.parseColor("#FFA260CE"), Color.parseColor("#FFAADEE3"),
-                        Color.parseColor("#FF45A29A"), Color.parseColor("#FFCB4B3D"), Color.parseColor("#FF37D244")};
+                        Color.parseColor("#558B2F"), Color.parseColor("#FFCB4B3D"), Color.parseColor("#FF37D244")};
 
-        Expenses.add(new Entry(databaseHelper.getcategorytotal("Household"),0));
-        Expenses.add(new Entry(databaseHelper.getcategorytotal("Eating-out"),1));
-        Expenses.add(new Entry(databaseHelper.getcategorytotal("Grocery"),2));
-        Expenses.add(new Entry(databaseHelper.getcategorytotal("Personal"),3));
-        Expenses.add(new Entry(databaseHelper.getcategorytotal("Utilities"),4));
-        Expenses.add(new Entry(databaseHelper.getcategorytotal("Medical"),5));
-        Expenses.add(new Entry(databaseHelper.getcategorytotal("Education"),6));
-        Expenses.add(new Entry(databaseHelper.getcategorytotal("Entertainment"),7));
-        Expenses.add(new Entry(databaseHelper.getcategorytotal("Clothing"),8));
-        Expenses.add(new Entry(databaseHelper.getcategorytotal("Transportation"),9));
-        Expenses.add(new Entry(databaseHelper.getcategorytotal("Shopping"),10));
-        Expenses.add(new Entry(databaseHelper.getcategorytotal("Others"),11));
-
-        final PieDataSet dataSet = new PieDataSet(Expenses, "Total Expenses");
-        ArrayList categories = new ArrayList();
+        ArrayList<String> categories = new ArrayList();
 
         categories.add("Household");
         categories.add("Eating-out");
@@ -70,18 +77,43 @@ public class PieChartFragment extends Fragment {
         categories.add("Shopping");
         categories.add("Others");
 
-        PieData data = new PieData(categories, dataSet);
-        
-        pieChart.setData(data);
+        ArrayList<Integer> colour = new ArrayList<>();
+
+        for(int i = 0; i<categories.size(); i++){
+            if((databaseHelper.getcategorytotal(categories.get(i), fromd, tod) > 0)){
+                colour.add(color[i]);
+                entries.add(new PieEntry(databaseHelper.getcategorytotal(categories.get(i), fromd, tod), categories.get(i)));
+            }
+        }
+
+        dataSet = new PieDataSet(entries, null);
+
+        data = new PieData(dataSet);
+
+        dataSet.setSelectionShift(5f);
+        dataSet.setColors(colour);
+        dataSet.setDrawValues(true);
+        dataSet.setSliceSpace(3f);
+        dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        dataSet.setValueTextSize(10);
+
         pieChart.setDescription(null);
         pieChart.getLegend().setEnabled(false);
-        pieChart.setDrawSliceText(false);
-        pieChart.setHoleColor(Color.parseColor("#fcd5ece5"));
+        pieChart.setHoleColor(Color.parseColor("White"));
+        pieChart.setCenterText("Expense Records \n" + "From "+ fromd + "\n" + "To " + tod);
+        pieChart.setCenterTextSize(13);
+        pieChart.setCenterTextColor(Color.parseColor("#FF808080"));
+        pieChart.animateXY(800,800);
+        pieChart.setExtraOffsets(20.f, 0.f, 20.f, 0.f);
+        pieChart.setEntryLabelColor(Color.parseColor("#FF808080"));
+        pieChart.setEntryLabelTextSize(10);
 
-        dataSet.setColors(color);
-        dataSet.setDrawValues(false);
+        if(databaseHelper.getChartTotal(fromd, tod) == 0){
+            pieChart.clear();
+        }
 
-        pieChart.animateXY(1000,1000);
+        pieChart.setData(data);
 
         return view;
     }

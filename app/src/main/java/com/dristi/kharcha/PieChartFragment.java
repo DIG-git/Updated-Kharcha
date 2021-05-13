@@ -101,8 +101,6 @@ public class PieChartFragment extends Fragment {
         pieChart.setDescription(null);
         pieChart.getLegend().setEnabled(false);
         pieChart.setHoleColor(Color.parseColor("White"));
-        pieChart.setCenterText("Expense Records \n" + "From "+ fromd + "\n" + "To " + tod);
-        pieChart.setCenterTextSize(13);
         pieChart.setCenterTextColor(Color.parseColor("#FF808080"));
         pieChart.animateXY(800,800);
         pieChart.setExtraOffsets(20.f, 0.f, 20.f, 0.f);
@@ -110,7 +108,12 @@ public class PieChartFragment extends Fragment {
         pieChart.setEntryLabelTextSize(10);
 
         if(databaseHelper.getChartTotal(fromd, tod) == 0){
-            pieChart.clear();
+            pieChart.setCenterText("No Records \n" + "From "+ fromd + "\n" + "To " + tod);
+            pieChart.setCenterTextSize(13);
+        }
+        else{
+            pieChart.setCenterText("Expense Records \n" + "From "+ fromd + "\n" + "To " + tod);
+            pieChart.setCenterTextSize(13);
         }
 
         pieChart.setData(data);

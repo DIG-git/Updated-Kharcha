@@ -88,6 +88,7 @@ public class Lend_Borrow extends AppCompatActivity {
 
             case 1:
                 Id = item.getGroupId();
+                add_installment(Id);
                 break;
 //
             case 2:
@@ -199,6 +200,73 @@ public class Lend_Borrow extends AppCompatActivity {
         dialog.show();
     }
 
+    public void add_installment(final int id_lend){
+
+        final Dialog dialog = new Dialog(Lend_Borrow.this,R.style.Theme_AppCompat_Light_Dialog_Alert);
+
+        View view = LayoutInflater.from(Lend_Borrow.this).inflate(R.layout.add_income,null);
+
+        TextView title = view.findViewById(R.id.title);
+
+        Button add = view.findViewById(R.id.add);
+        Button cancel = view.findViewById(R.id.cancel);
+
+        final EditText amount = view.findViewById(R.id.amount);
+        final EditText description = view.findViewById(R.id.description);
+
+        databaseHelper = new DatabaseHelper(this);
+
+        final Spinner income_spinner = view.findViewById(R.id.income_spinner);
+
+        description.setVisibility(View.GONE);
+        income_spinner.setVisibility(View.GONE);
+
+        add.setText("OK");
+        title.setText("Installment");
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isAmountEmpty(amount)){
+
+                    int lbamount = databaseHelper.getlbamount(id_lend);
+
+                    String a = amount.getText().toString();
+                    int amountVal = Integer.parseInt(a);
+
+                    if(amountVal<lbamount){
+                        int final_amount = lbamount - amountVal;
+
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put("amount", final_amount);
+
+                        databaseHelper.updatelb(id_lend,contentValues);
+
+                        dialog.dismiss();
+                    }
+                    else{
+                        Toast.makeText(Lend_Borrow.this, "Installment is greater than amount", Toast.LENGTH_SHORT).show();
+                    }
+
+                    expadapt();
+                    lend.setText(String.valueOf(databaseHelper.getlentbalance()));
+                    borrow.setText(String.valueOf(databaseHelper.getborrowbalance()));
+
+                }
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.setContentView(view);
+        dialog.show();
+
+    }
     public void update_lend_borrow(int id){
 
         final Dialog dialog = new Dialog(Lend_Borrow.this,R.style.Theme_AppCompat_Light_Dialog_Alert);

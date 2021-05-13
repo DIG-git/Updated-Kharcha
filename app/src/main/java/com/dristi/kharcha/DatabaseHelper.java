@@ -57,7 +57,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "\t`fromdate`\tTEXT,\n" +
             "\t`amount`\tINTEGER,\n" +
             "\t`category`\tTEXT,\n" +
-            "\t`todate`\tTEXT\n" +
+            "\t`todate`\tTEXT,\n" +
+            "\t`status`\tTEXT\n" +
             ")";
 
     public DatabaseHelper(Context context) {
@@ -321,7 +322,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public long getborrowbalance(){
         String sql = "Select SUM (amount) as Total from lb where category='Borrow'";
-        SQLiteStatement statement=getReadableDatabase().compileStatement(sql);
+        SQLiteStatement statement = getReadableDatabase().compileStatement(sql);
         long l = statement.simpleQueryForLong();
         statement.close();
         return l;
@@ -423,7 +424,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
 
         String sql2 = "Select SUM (amount) as Total from lb where category='Borrow' and cashcredit='Credit Card'";
-        SQLiteStatement statement=getReadableDatabase().compileStatement(sql2);
+        SQLiteStatement statement = getReadableDatabase().compileStatement(sql2);
         long l = statement.simpleQueryForLong();
         statement.close();
 
@@ -450,6 +451,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return total;
     }
 
+    public int getlbamount(int id){
+        String sql = "Select amount from lb where id = " +id;
+        Cursor c = getReadableDatabase().rawQuery(sql,null);
+        int value = 0;
+        while (c.moveToNext()){
+            value = c.getInt(c.getColumnIndex("amount"));
+        }
+        c.close();
+        return value;
+    }
+
+
     public ArrayList<ExpenseInfo> getrecentexpenselist()
     {
         String sql = "SELECT * from expense order by date DESC limit 15";
@@ -469,16 +482,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         c.close();
         return list;
     }
-
-//    private boolean isExecuted;
-//    public synchronized void executeOnce() {
-//        if (isExecuted) {
-//            return;
-//        } else {
-//            chartDate = new ArrayList<>();
-//            isExecuted = true;
-//        }
-//    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {

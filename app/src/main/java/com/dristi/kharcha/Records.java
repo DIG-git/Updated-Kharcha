@@ -1,5 +1,6 @@
 package com.dristi.kharcha;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -314,6 +316,9 @@ public class Records extends Fragment{
 
         final Spinner income_spinner = view.findViewById(R.id.cashcredit);
         final Spinner spinnercategories = view.findViewById(R.id.categories);
+        final CheckBox payments = view.findViewById(R.id.payments);
+
+        payments.setVisibility(View.INVISIBLE);
 
         //id=getIntent().getIntExtra("id",0);
 
@@ -397,6 +402,19 @@ public class Records extends Fragment{
         dialog.setContentView(view);
         dialog.show();
 
+    }
+
+    public ArrayList<String> getPaymentSpinner(){
+
+        ArrayList<String> spinner = new ArrayList<>();
+
+        spinner.add("Choose Schedule Reminder");
+        spinner.add("Daily");
+        spinner.add("Weekly");
+        spinner.add("Monthly");
+        spinner.add("Yearly");
+
+        return spinner;
     }
 
 

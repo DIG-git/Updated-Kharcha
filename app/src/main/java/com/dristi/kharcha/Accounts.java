@@ -1,7 +1,11 @@
 package com.dristi.kharcha;
 
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -9,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -22,6 +27,7 @@ import com.github.clans.fab.FloatingActionMenu;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
@@ -118,6 +124,7 @@ public class Accounts extends Fragment {
 
         final Spinner income_spinner = view.findViewById(R.id.cashcredit);
         final Spinner spinnercategories = view.findViewById(R.id.categories);
+        final CheckBox payments = view.findViewById(R.id.payments);
 
         //id=getIntent().getIntExtra("id",0);
 
@@ -171,7 +178,17 @@ public class Accounts extends Fragment {
                         contentValues.put("category", categoryVal);
                         contentValues.put("cashcredit",spinnerval);
 
+                        ContentValues contentValues1 = new ContentValues();
+                        contentValues1.put("amount", amountVal);
+                        contentValues1.put("description", descriptionVal);
+                        contentValues1.put("category", categoryVal);
+                        contentValues1.put("cashcredit",spinnerval);
+
                         databaseHelper.insertexpense(contentValues);
+
+                        if (payments.isChecked()) {
+                            databaseHelper.insertPayment(contentValues1);
+                        }
 
                         dialog.dismiss();
                     }

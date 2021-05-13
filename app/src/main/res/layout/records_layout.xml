@@ -80,7 +80,7 @@
                         <ListView
                             android:id="@+id/list"
                             android:layout_width="match_parent"
-                            android:layout_height="450dp"
+                            android:layout_height="200dp"
                             android:divider="@null"
                             android:dividerHeight="0dp">
 

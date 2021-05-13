@@ -3,10 +3,12 @@ package com.dristi.kharcha;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
+import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
 
@@ -55,7 +57,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "\t`fromdate`\tTEXT,\n" +
             "\t`amount`\tINTEGER,\n" +
             "\t`category`\tTEXT,\n" +
-            "\t`todate`\tTEXT\n" +
+            "\t`todate`\tTEXT,\n" +
+            "\t`status`\tTEXT\n" +
             ")";
 
     String sqlCreatePaymentsTable = "CREATE TABLE if not exists `payments` (\n" +
@@ -220,9 +223,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return info;
     }
 
-    public int getcategorytotal(String category){
+    public int getlinecategorytotal(String category, String date){
 
-        String sql = "Select * from expense where category = '" + category + "'";
+        String sql = "Select * from expense where category = '" + category + "' AND date >= date('" + date + "') AND date < date('" + date + "', '+7 day')";
         Cursor c = getReadableDatabase().rawQuery(sql,null);
         int sum = 0,total = 0;
         while (c.moveToNext()){
@@ -233,9 +236,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return total;
     }
 
-    public int getlinecategorytotal(String category, String date){
+    public int getcategorytotal(String category, String fromd, String tod){
 
-        String sql = "Select * from expense where category = '" + category + "' AND date >= date('" + date + "') AND date < date('" + date + "', '+7 day')";
+        String sql = "Select * from expense where category = '" + category + "' AND date >= date('" + fromd + "') AND date < date('" + tod + "')";
+        Cursor c = getReadableDatabase().rawQuery(sql,null);
+        int sum = 0,total = 0;
+        while (c.moveToNext()){
+            sum = c.getInt(c.getColumnIndex("amount"));
+            total = total + sum;
+        }
+        c.close();
+        return total;
+    }
+
+    public int getChartTotal(String fromd, String tod){
+
+        String sql = "Select * from expense where date >= date('" + fromd + "') AND date < date('" + tod + "')";
         Cursor c = getReadableDatabase().rawQuery(sql,null);
         int sum = 0,total = 0;
         while (c.moveToNext()){
@@ -316,7 +332,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public long getborrowbalance(){
         String sql = "Select SUM (amount) as Total from lb where category='Borrow'";
-        SQLiteStatement statement=getReadableDatabase().compileStatement(sql);
+        SQLiteStatement statement = getReadableDatabase().compileStatement(sql);
         long l = statement.simpleQueryForLong();
         statement.close();
         return l;
@@ -418,7 +434,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
 
         String sql2 = "Select SUM (amount) as Total from lb where category='Borrow' and cashcredit='Credit Card'";
-        SQLiteStatement statement=getReadableDatabase().compileStatement(sql2);
+        SQLiteStatement statement = getReadableDatabase().compileStatement(sql2);
         long l = statement.simpleQueryForLong();
         statement.close();
 
@@ -444,6 +460,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         c.close();
         return total;
     }
+
+    public int getlbamount(int id){
+        String sql = "Select amount from lb where id = " +id;
+        Cursor c = getReadableDatabase().rawQuery(sql,null);
+        int value = 0;
+        while (c.moveToNext()){
+            value = c.getInt(c.getColumnIndex("amount"));
+        }
+        c.close();
+        return value;
+    }
+
 
     public ArrayList<ExpenseInfo> getrecentexpenselist()
     {

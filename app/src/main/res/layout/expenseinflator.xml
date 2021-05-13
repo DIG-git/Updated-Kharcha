@@ -62,9 +62,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="- Rs. "
+                android:text="- "
                 android:textColor="#e24c4c"
                 android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rs. "
+                android:textColor="#e24c4c"
+                android:textSize="18sp"
+                android:id="@+id/currency"/>
 
             <TextView
                 android:id="@+id/amount"

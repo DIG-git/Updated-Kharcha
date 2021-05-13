@@ -472,6 +472,11 @@ public class Records extends Fragment{
     public void onResume() {
         super.onResume();
 
-        displayexpense(getDate());
+        if(incexp == "Expense"){
+            displayexpense(getDate());
+        }
+        else{
+            displayincome(getDate());
+        }
     }
 }

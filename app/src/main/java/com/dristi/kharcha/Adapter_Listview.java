@@ -33,11 +33,14 @@ public class Adapter_Listview extends ArrayAdapter<ExpenseInfo>{
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
+        SharedPreferences preferences = context.getSharedPreferences("Currency",0);
+
         final View view = LayoutInflater.from(context).inflate(R.layout.listview_inflator,null);
 
-        TextView name=view.findViewById(R.id.name),
+        TextView name = view.findViewById(R.id.name),
+                currency = view.findViewById(R.id.currency),
                 description = view.findViewById(R.id.description),
-                amount=view.findViewById(R.id.amount);
+                amount = view.findViewById(R.id.amount);
 
         ImageView imageView = view.findViewById(R.id.image);
 
@@ -48,6 +51,7 @@ public class Adapter_Listview extends ArrayAdapter<ExpenseInfo>{
         final ExpenseInfo info = getItem(position);
 
         name.setText(info.category);
+        currency.setText(preferences.getString("currency","Rs.") + " ");
         amount.setText(String.valueOf(info.amount));
 
         final int id = info.id;

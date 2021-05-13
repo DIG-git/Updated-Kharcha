@@ -6,20 +6,25 @@ import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.icu.util.ICUUncheckedIOException;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -29,15 +34,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import static android.widget.Toast.LENGTH_SHORT;
-
 public class Accounts extends Fragment {
 
     FloatingActionMenu menu;
 
-    FloatingActionButton b1,b2;
+    FloatingActionButton b1, b2;
 
     private ArrayList<Categories_item> categorylist;
+
+    ArrayList<String> currencylist;
 
     private Categories_adapter Adapter;
 
@@ -47,11 +52,13 @@ public class Accounts extends Fragment {
 
     ListView listView;
 
+    SharedPreferences preferences, execute;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.activity_accounts,null);
+        View view = inflater.inflate(R.layout.activity_accounts, null);
 
         databaseHelper = new DatabaseHelper(getActivity());
 
@@ -62,16 +69,18 @@ public class Accounts extends Fragment {
 
         listView = view.findViewById(R.id.recent);
 
+        execute = getActivity().getSharedPreferences("Execute1", 0);
+        preferences = getActivity().getSharedPreferences("Currency", 0);
+
         cash.setText(String.valueOf(databaseHelper.getcashtotal()));
         credit.setText(String.valueOf(databaseHelper.getcredittotal()));
         balance.setText(String.valueOf(databaseHelper.getbalance()));
 
-        if(databaseHelper.getrecentexpenselist().isEmpty()){
+        if (databaseHelper.getrecentexpenselist().isEmpty()) {
             norecord.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             norecord.setVisibility(View.INVISIBLE);
-            listView.setAdapter(new ListAdapter(getActivity(),databaseHelper.getrecentexpenselist()));
+            listView.setAdapter(new ListAdapter(getActivity(), databaseHelper.getrecentexpenselist()));
         }
 
         menu = view.findViewById(R.id.menu);
@@ -84,8 +93,8 @@ public class Accounts extends Fragment {
             }
         });
 
-        b1=view.findViewById(R.id.b1);
-        b2=view.findViewById(R.id.b2);
+        b1 = view.findViewById(R.id.b1);
+        b2 = view.findViewById(R.id.b2);
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,12 +116,12 @@ public class Accounts extends Fragment {
         return view;
     }
 
-    public void addExpense(){
+    public void addExpense() {
 
-        final Dialog dialog = new Dialog(getActivity(),R.style.Theme_AppCompat_Light_Dialog_Alert);
+        final Dialog dialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Light_Dialog_Alert);
         dialog.setTitle("Add Expense");
 
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.add_expense,null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.add_expense, null);
 
         dbHelper = new DatabaseHelper(getActivity());
 
@@ -131,7 +140,7 @@ public class Accounts extends Fragment {
         income_spinner.setAdapter(new Income_spinner(getActivity(), getSpinner()));
 
         initlist();
-        Adapter = new Categories_adapter(getActivity(),categorylist);
+        Adapter = new Categories_adapter(getActivity(), categorylist);
         spinnercategories.setAdapter(Adapter);
 //
 //        if(id!=0){
@@ -151,17 +160,16 @@ public class Accounts extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if(isAmountEmpty(amount)) {
+                if (isAmountEmpty(amount)) {
 
                     Categories_item categoryval = (Categories_item) spinnercategories.getSelectedItem();
                     String categoryVal = categoryval.getName().toString();
 
                     final String spinnerval = income_spinner.getSelectedItem().toString();
 
-                    if (spinnerval.equals("Choose category")){
-                        Toast.makeText(getActivity(),"Choose category",Toast.LENGTH_SHORT).show();
-                    }
-                    else{
+                    if (spinnerval.equals("Choose category")) {
+                        Toast.makeText(getActivity(), "Choose category", Toast.LENGTH_SHORT).show();
+                    } else {
 
                         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                         String date = df.format(Calendar.getInstance().getTime());
@@ -176,7 +184,7 @@ public class Accounts extends Fragment {
                         contentValues.put("amount", amountVal);
                         contentValues.put("description", descriptionVal);
                         contentValues.put("category", categoryVal);
-                        contentValues.put("cashcredit",spinnerval);
+                        contentValues.put("cashcredit", spinnerval);
 
                         ContentValues contentValues1 = new ContentValues();
                         contentValues1.put("amount", amountVal);
@@ -210,7 +218,6 @@ public class Accounts extends Fragment {
                 });*/
 
 
-
 //                    if(id==0){
 //                        databaseHelper.insertexpense(contentValues);
 //
@@ -226,12 +233,11 @@ public class Accounts extends Fragment {
 //                    ((Navigation_drawer)getActivity()).refreshlist();
                 }
 
-                if(databaseHelper.getrecentexpenselist().isEmpty()){
+                if (databaseHelper.getrecentexpenselist().isEmpty()) {
                     norecord.setVisibility(View.VISIBLE);
-                }
-                else{
+                } else {
                     norecord.setVisibility(View.INVISIBLE);
-                    listView.setAdapter(new ListAdapter(getActivity(),databaseHelper.getrecentexpenselist()));
+                    listView.setAdapter(new ListAdapter(getActivity(), databaseHelper.getrecentexpenselist()));
                 }
 
                 cash.setText(String.valueOf(databaseHelper.getcashtotal()));
@@ -254,12 +260,12 @@ public class Accounts extends Fragment {
 
     }
 
-    public void addIncome(){
+    public void addIncome() {
 
-        final Dialog dialog = new Dialog(getActivity(),R.style.Theme_AppCompat_Light_Dialog_Alert);
+        final Dialog dialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Light_Dialog_Alert);
         dialog.setTitle("Add Income");
 
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.add_income,null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.add_income, null);
 
         Button add = view.findViewById(R.id.add);
         Button cancel = view.findViewById(R.id.cancel);
@@ -276,13 +282,12 @@ public class Accounts extends Fragment {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isAmountEmpty(amount)){
+                if (isAmountEmpty(amount)) {
                     String categoryval = income_spinner.getSelectedItem().toString();
 
-                    if (categoryval.equals("Choose category")){
-                        Toast.makeText(getActivity(),"Choose category",Toast.LENGTH_SHORT).show();
-                    }
-                    else{
+                    if (categoryval.equals("Choose category")) {
+                        Toast.makeText(getActivity(), "Choose category", Toast.LENGTH_SHORT).show();
+                    } else {
                         String a = amount.getText().toString();
                         int amountval = Integer.parseInt(a);
 
@@ -291,10 +296,10 @@ public class Accounts extends Fragment {
                         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                         String date = df.format(Calendar.getInstance().getTime());
 
-                        ContentValues contentValues=new ContentValues();
-                        contentValues.put("date",date);
-                        contentValues.put("amount",amountval);
-                        contentValues.put("description",descriptionval);
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put("date", date);
+                        contentValues.put("amount", amountval);
+                        contentValues.put("description", descriptionval);
                         contentValues.put("category", categoryval);
 
                         databaseHelper.insertincome(contentValues);
@@ -332,7 +337,7 @@ public class Accounts extends Fragment {
 
     }
 
-    public ArrayList<String> getSpinner(){
+    public ArrayList<String> getSpinner() {
 
         ArrayList<String> spinner = new ArrayList<>();
 
@@ -343,21 +348,21 @@ public class Accounts extends Fragment {
         return spinner;
     }
 
-    private void initlist(){
+    private void initlist() {
 
         categorylist = new ArrayList<>();
-        categorylist.add(new Categories_item("Household",R.drawable.ic_household));
-        categorylist.add(new Categories_item("Eating-out",R.drawable.ic_eating_out));
-        categorylist.add(new Categories_item("Grocery",R.drawable.ic_grocery));
-        categorylist.add(new Categories_item("Personal",R.drawable.ic_personal));
-        categorylist.add(new Categories_item("Utilities",R.drawable.ic_utilities));
-        categorylist.add(new Categories_item("Medical",R.drawable.ic_medical));
-        categorylist.add(new Categories_item("Education",R.drawable.ic_education));
-        categorylist.add(new Categories_item("Entertainment",R.drawable.ic_entertainment));
-        categorylist.add(new Categories_item("Clothing",R.drawable.ic_clothing));
-        categorylist.add(new Categories_item("Transportation",R.drawable.ic_transportation));
-        categorylist.add(new Categories_item("Shopping",R.drawable.ic_shopping));
-        categorylist.add(new Categories_item("Others",R.drawable.savings));
+        categorylist.add(new Categories_item("Household", R.drawable.ic_household));
+        categorylist.add(new Categories_item("Eating-out", R.drawable.ic_eating_out));
+        categorylist.add(new Categories_item("Grocery", R.drawable.ic_grocery));
+        categorylist.add(new Categories_item("Personal", R.drawable.ic_personal));
+        categorylist.add(new Categories_item("Utilities", R.drawable.ic_utilities));
+        categorylist.add(new Categories_item("Medical", R.drawable.ic_medical));
+        categorylist.add(new Categories_item("Education", R.drawable.ic_education));
+        categorylist.add(new Categories_item("Entertainment", R.drawable.ic_entertainment));
+        categorylist.add(new Categories_item("Clothing", R.drawable.ic_clothing));
+        categorylist.add(new Categories_item("Transportation", R.drawable.ic_transportation));
+        categorylist.add(new Categories_item("Shopping", R.drawable.ic_shopping));
+        categorylist.add(new Categories_item("Others", R.drawable.savings));
 
     }
 
@@ -374,17 +379,109 @@ public class Accounts extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(databaseHelper.getrecentexpenselist().isEmpty()){
+        if (databaseHelper.getrecentexpenselist().isEmpty()) {
             norecord.setVisibility(View.VISIBLE);
-            listView.setAdapter(new ListAdapter(getActivity(),databaseHelper.getrecentexpenselist()));
-        }
-        else{
+            listView.setAdapter(new ListAdapter(getActivity(), databaseHelper.getrecentexpenselist()));
+        } else {
             norecord.setVisibility(View.INVISIBLE);
-            listView.setAdapter(new ListAdapter(getActivity(),databaseHelper.getrecentexpenselist()));
+            listView.setAdapter(new ListAdapter(getActivity(), databaseHelper.getrecentexpenselist()));
         }
 
         cash.setText(String.valueOf(databaseHelper.getcashtotal()));
         credit.setText(String.valueOf(databaseHelper.getcredittotal()));
         balance.setText(String.valueOf(databaseHelper.getbalance()));
+
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.currency_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+
+            case R.id.currency:
+                setcurrency();
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void setcurrency() {
+
+        final Dialog dialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Light_Dialog_Alert);
+
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.add_income, null);
+
+        TextView title = view.findViewById(R.id.title);
+
+        Button add = view.findViewById(R.id.add);
+        Button cancel = view.findViewById(R.id.cancel);
+
+        final EditText amount = view.findViewById(R.id.amount);
+        final EditText description = view.findViewById(R.id.description);
+
+        final Spinner spinner = view.findViewById(R.id.income_spinner);
+
+
+        amount.setVisibility(View.GONE);
+        description.setVisibility(View.GONE);
+
+        title.setText("Set Currency");
+        add.setText("OK");
+
+        spinner.setAdapter(new Income_spinner(getActivity(), getCurrencylist()));
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                preferences.edit().putString("currency", spinner.getSelectedItem().toString()).apply();
+
+                if (databaseHelper.getrecentexpenselist().isEmpty()) {
+                    norecord.setVisibility(View.VISIBLE);
+                } else {
+                    norecord.setVisibility(View.INVISIBLE);
+                    listView.setAdapter(new ListAdapter(getActivity(), databaseHelper.getrecentexpenselist()));
+                }
+
+                dialog.dismiss();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
+    private ArrayList<String> getCurrencylist() {
+
+        currencylist = new ArrayList<>();
+
+        currencylist.add("Rs.");
+        currencylist.add("$");
+        currencylist.add("€");
+        currencylist.add("£");
+        currencylist.add("₽");
+        currencylist.add("¥");
+        currencylist.add("฿");
+        currencylist.add("₱");
+        currencylist.add("₩");
+        currencylist.add("元");
+
+        return currencylist;
+
     }
 }

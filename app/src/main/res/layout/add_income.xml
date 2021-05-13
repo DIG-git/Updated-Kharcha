@@ -13,7 +13,8 @@
         android:gravity="center"
         android:textAlignment="center"
         android:textColor="@color/skyblue"
-        android:textStyle="normal"/>
+        android:textStyle="normal"
+        android:id="@+id/title"/>
 
     <View
         android:layout_width="match_parent"

@@ -61,6 +61,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "\t`status`\tTEXT\n" +
             ")";
 
+    String sqlCreatePaymentsTable = "CREATE TABLE if not exists `payments` (\n" +
+            "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+            "\t`amount`\tINTEGER,\n" +
+            "\t`category`\tTEXT,\n" +
+            "\t`description`\tTEXT,\n" +
+            "\t`cashcredit`\tTEXT\n" +
+            ")";
+
     public DatabaseHelper(Context context) {
         super(context, name,null, version);
 
@@ -73,11 +81,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         getWritableDatabase().execSQL(sqlCreatelbTable);
 
         getWritableDatabase().execSQL(sqlCreateBudgetTable);
-    }
 
-    public void insertBudget (ContentValues contentValues)
-    {
-        getWritableDatabase().insert("budget","",contentValues);
+        getWritableDatabase().execSQL(sqlCreatePaymentsTable);
     }
 
 //    public void insertUser (ContentValues contentValues)
@@ -136,14 +141,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public void updateexpense(Integer id,ContentValues contentValues){
+        getWritableDatabase().update("expense",contentValues,"id="+id,null);
+    }
+
+    public ExpenseInfo getexpenseinfo(int id){
+        String sql= "Select * from expense where id="+id;
+        Cursor c=getReadableDatabase().rawQuery(sql,null);
+        ExpenseInfo info= new ExpenseInfo();
+        while(c.moveToNext())
+        {
+            info.id = c.getInt(c.getColumnIndex("id"));
+            info.date = c.getString(c.getColumnIndex("date"));
+            info.amount = c.getInt(c.getColumnIndex("amount"));
+            info.category = c.getString(c.getColumnIndex("category"));
+            info.description = c.getString(c.getColumnIndex("description"));
+            info.cashcredit = c.getString(c.getColumnIndex("cashcredit"));
+        }
+        c.close();
+        return info;
+    }
+
+    public void insertBudget (ContentValues contentValues)
+    {
+        getWritableDatabase().insert("budget","",contentValues);
+    }
+
     public void deletebudget (int id){
 
         getWritableDatabase().delete("budget","id =" +id,null);
 
-    }
-
-    public void updateexpense(Integer id,ContentValues contentValues){
-        getWritableDatabase().update("expense",contentValues,"id="+id,null);
     }
 
     public ArrayList<BudgetInfo> getbudgetlist()
@@ -163,23 +190,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         c.close();
         return list;
-    }
-
-    public ExpenseInfo getexpenseinfo(int id){
-        String sql= "Select * from expense where id="+id;
-        Cursor c=getReadableDatabase().rawQuery(sql,null);
-        ExpenseInfo info= new ExpenseInfo();
-        while(c.moveToNext())
-        {
-            info.id = c.getInt(c.getColumnIndex("id"));
-            info.date = c.getString(c.getColumnIndex("date"));
-            info.amount = c.getInt(c.getColumnIndex("amount"));
-            info.category = c.getString(c.getColumnIndex("category"));
-            info.description = c.getString(c.getColumnIndex("description"));
-            info.cashcredit = c.getString(c.getColumnIndex("cashcredit"));
-        }
-        c.close();
-        return info;
     }
 
     public void insertincome (ContentValues contentValues)
@@ -481,6 +491,55 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         c.close();
         return list;
+    }
+
+    public void insertPayment (ContentValues contentValues)
+    {
+        getWritableDatabase().insert("payments","",contentValues);
+    }
+
+    public void deletePayment (int id){
+
+        getWritableDatabase().delete("payments","id =" +id,null);
+
+    }
+
+    public void updatePayment(Integer id,ContentValues contentValues){
+        getWritableDatabase().update("payments",contentValues,"id="+id,null);
+    }
+
+    public ArrayList<PaymentInfo> getPaymentList(){
+        String sql= "Select * from payments";
+        Cursor c=getReadableDatabase().rawQuery(sql,null);
+        ArrayList<PaymentInfo> list = new ArrayList<>();
+        while(c.moveToNext())
+        {
+            PaymentInfo info = new PaymentInfo();
+            info.id = c.getInt(c.getColumnIndex("id"));
+            info.amount = c.getInt(c.getColumnIndex("amount"));
+            info.category = c.getString(c.getColumnIndex("category"));
+            info.description = c.getString(c.getColumnIndex("description"));
+            info.cashcredit = c.getString(c.getColumnIndex("cashcredit"));
+            list.add(info);
+        }
+        c.close();
+        return list;
+    }
+
+    public PaymentInfo getPaymentInfo(int id){
+        String sql= "Select * from payments where id="+id;
+        Cursor c=getReadableDatabase().rawQuery(sql,null);
+        PaymentInfo info = new PaymentInfo();
+        while(c.moveToNext())
+        {
+            info.id = c.getInt(c.getColumnIndex("id"));
+            info.amount = c.getInt(c.getColumnIndex("amount"));
+            info.category = c.getString(c.getColumnIndex("category"));
+            info.description = c.getString(c.getColumnIndex("description"));
+            info.cashcredit = c.getString(c.getColumnIndex("cashcredit"));
+        }
+        c.close();
+        return info;
     }
 
     @Override

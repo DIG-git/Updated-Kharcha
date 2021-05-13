@@ -9,23 +9,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".Payments"></activity>
         <activity
             android:name=".Navigation_drawer"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Lend_Borrow"
+            android:label="Lend and Borrow" />
+        <activity
+            android:name=".Budget"
+            android:label="Budget"></activity>
 
-        <activity android:name=".Lend_Borrow"
-            android:label="Lend and Borrow"/>
-
-        <activity android:name=".Budget"
-            android:label="Budget">
-        </activity>
-
+        <receiver android:name=".AlarmReceiver" />
     </application>
 
 </manifest>

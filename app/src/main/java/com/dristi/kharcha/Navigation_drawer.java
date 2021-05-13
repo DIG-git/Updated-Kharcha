@@ -1,13 +1,20 @@
 package com.dristi.kharcha;
 
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -31,6 +38,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -220,6 +228,15 @@ public class Navigation_drawer extends AppCompatActivity
         if (id == R.id.lendborrow){
             startActivity(new Intent(Navigation_drawer.this,Lend_Borrow.class));
         }
+        else if(id == R.id.budget){
+            startActivity(new Intent(Navigation_drawer.this,Budget.class));
+        }
+        else if(id == R.id.reminder){
+            showCustomdialog();
+        }
+        else if (id == R.id.payments){
+            startActivity(new Intent(Navigation_drawer.this,Payments.class));
+        }
         else if (id == R.id.nav_share){
             Intent myintent = new Intent(Intent.ACTION_SEND);
             myintent.setType("text/plain");
@@ -228,7 +245,6 @@ public class Navigation_drawer extends AppCompatActivity
             myintent.putExtra(Intent.EXTRA_SUBJECT,sharesub);
             myintent.putExtra(Intent.EXTRA_TEXT,sharebody);
             startActivity(Intent.createChooser(myintent,"Share using"));
-
         }
         else if (id == R.id.about){
 
@@ -243,9 +259,6 @@ public class Navigation_drawer extends AppCompatActivity
             intent.setType("text/html");
             intent.setPackage("com.google.android.gm");
             startActivity(Intent.createChooser(intent, "Send mail"));
-        }
-        else if(id == R.id.budget){
-            startActivity(new Intent(Navigation_drawer.this,Budget.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -315,22 +328,40 @@ public class Navigation_drawer extends AppCompatActivity
         timePicker.setIs24HourView(false); // used to display AM/PM mode
 
         // perform set on time changed listener event
-        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-            @Override
-            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                Calendar mcurrentTime = Calendar.getInstance();
-                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                int minutes = mcurrentTime.get(Calendar.MINUTE);
-
-                // display a toast with changed values of time picker
-                Toast.makeText(getApplicationContext(), hourOfDay + " - " + minute, Toast.LENGTH_SHORT).show();
-            }
-        });
+//        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+//            @Override
+//            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+//                Calendar mcurrentTime = Calendar.getInstance();
+//                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+//                int minutes = mcurrentTime.get(Calendar.MINUTE);
+//
+//                // display a toast with changed values of time picker
+//                Toast.makeText(getApplicationContext(), "Reminder: " + hourOfDay + " : " + minute, Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         ok.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 //String timevalue = timePicker.getHour()+"-"+timePicker.getMinute();
+                AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                Date dat = new Date();
+                Calendar cal_alarm = Calendar.getInstance();
+                Calendar cal_now = Calendar.getInstance();
+                cal_now.setTime(dat);
+                cal_alarm.setTime(dat);
+                cal_alarm.set(Calendar.HOUR_OF_DAY,timePicker.getHour());
+                cal_alarm.set(Calendar.MINUTE,timePicker.getMinute());
+                if(cal_alarm.before(cal_now)){
+                    cal_alarm.add(Calendar.DATE,1);
+                }
+
+                Intent myIntent = new Intent(Navigation_drawer.this, AlarmReceiver.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(Navigation_drawer.this, 0, myIntent, 0);
+
+                manager.setRepeating(AlarmManager.RTC_WAKEUP,cal_alarm.getTimeInMillis(),1000 * 60 * 60 * 24, pendingIntent);
+                //manager.set(AlarmManager.RTC_WAKEUP,cal_alarm.getTimeInMillis(), pendingIntent);
                 dialog.dismiss();
             }
         });
@@ -346,6 +377,7 @@ public class Navigation_drawer extends AppCompatActivity
         dialog.show();
 
     }
+
 
     //    public void refreshlist(){
 //

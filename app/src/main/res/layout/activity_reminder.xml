@@ -8,13 +8,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:background="#d4d4d4"
         android:padding="15dp"
         android:text="Set a Reminder"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/skyblue"
         android:textSize="20sp"
-        android:textStyle="bold" />
-
+        android:textStyle="normal" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/time"
+        android:background="#a3a2a2">
+    </View>
     <TimePicker
         android:id="@+id/timePicker"
         android:layout_width="wrap_content"
@@ -36,19 +40,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/cancel"
-            android:text="CANCEL"
-            android:layout_marginRight="40dp"
+            android:id="@+id/ok"
+            android:text="OK"
+            android:layout_marginRight="70dp"
             android:textSize="18sp"
-            android:textColor="@color/colorAccent"/>
+            android:textColor="@color/skyblue"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/ok"
-            android:text="OK"
-            android:layout_marginRight="10dp"
+            android:id="@+id/cancel"
+            android:text="CANCEL"
             android:textSize="18sp"
-            android:textColor="@color/colorAccent"/>
+            android:textColor="#e24c4c"/>
     </LinearLayout>
 
 </RelativeLayout>

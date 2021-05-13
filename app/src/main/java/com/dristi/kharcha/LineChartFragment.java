@@ -2,16 +2,29 @@ package com.dristi.kharcha;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,7 +41,7 @@ import lecho.lib.hellocharts.view.LineChartView;
 
 public class LineChartFragment extends Fragment {
 
-    LineChartView houselinechart;
+    LineChart linechart;
 
     String date;
 
@@ -44,7 +57,9 @@ public class LineChartFragment extends Fragment {
 
     Spinner categories;
 
-    int i = 0;
+    ImageView cat_icon;
+
+    TextView cat_text, from ,to;
 
     @Nullable
     @Override
@@ -52,8 +67,12 @@ public class LineChartFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.line_chart,null);
 
-        houselinechart = view.findViewById(R.id.housechart);
+        linechart = view.findViewById(R.id.linechart);
         categories = view.findViewById(R.id.categories);
+        cat_text = view.findViewById(R.id.cat_text);
+        cat_icon = view.findViewById(R.id.cat_icon);
+        from = view.findViewById(R.id.from);
+        to = view. findViewById(R.id.to);
 
         databaseHelper = new DatabaseHelper(getActivity());
 
@@ -66,20 +85,33 @@ public class LineChartFragment extends Fragment {
         fromd = preferences.getString("fromd"," ");
         tod = preferences.getString("tod"," ");
 
+        from.setText(fromd);
+        to.setText(tod);
+
 //        if(set == 0){
 //            setDate(preferences.getString("Date",""));
 //            set++;
-//        }
-
-//        if(i == 0){
-//            i  = 1;
-//            makechart("Household");
 //        }
 
         Categories_item categoryval = (Categories_item) categories.getSelectedItem();
         categoryVal = categoryval.getName().toString();
 
         makechart(categoryVal);
+
+        categories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Categories_item categoryval = (Categories_item) categories.getSelectedItem();
+                categoryVal = categoryval.getName().toString();
+
+                makechart(categoryVal);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         return view;
     }
@@ -88,94 +120,97 @@ public class LineChartFragment extends Fragment {
 
         setDate(fromd);
 
-        int count = 0;
-        int[] yAxisData =  new int[30];
-        int[] axisData =  new int[30];
+        ArrayList<Entry> dataSet = new ArrayList<>();
+
+        int count = 1;
 
         while(tod.compareTo(getDate()) > 0){
-            axisData[count] = count + 1;
-            yAxisData[count] = databaseHelper.getlinecategorytotal(category, getDate());
+            dataSet.add(new Entry(count, databaseHelper.getlinecategorytotal(category, getDate())));
+            System.out.println(count);
             setDate(getnewdate(getDate()));
             count++;
         }
 
-        System.out.println(axisData[5]);
-        System.out.println(yAxisData[0]);
+        LineDataSet lineDataSet = new LineDataSet(dataSet, category);
+        lineDataSet.setColors(Color.parseColor("#FF808080"));
+        lineDataSet.setLineWidth(4);
+        lineDataSet.setDrawFilled(true);
+        lineDataSet.setFillAlpha(85);
 
-//        for(int i=0; i<5; i++){
-//
-//            yAxisData[i] = databaseHelper.getlinecategorytotal(category, getDate());
-//            setDate(getnewdate(getDate()));
-//        }
+        LineData lineData = new LineData(lineDataSet);
 
-        List yAxisValues = new ArrayList();
-        List axisValues = new ArrayList();
-
-        Line line = new Line(yAxisValues).setColor(Color.parseColor("#FFF46E72"));
-
-        for(int i = 0; i<=count; i++){
-
-            axisValues.add(i,new AxisValue(i).setLabel(String.valueOf(axisData[i])));
-        }
-
-        for(int i = 0; i<=count;i++){
-            yAxisValues.add(new PointValue(i,yAxisData[i]));
-        }
-
-        List lines = new ArrayList();
-        lines.add(line);
-
-        LineChartData data = new LineChartData();
-        data.setLines(lines);
+        linechart.setData(lineData);
+        linechart.invalidate();
+        linechart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        linechart.getDescription().setText("Weeks");
+        linechart.getDescription().setTextSize(10f);
+        linechart.getLegend().setEnabled(false);
+        linechart.getXAxis().setGranularity(1);
 
         switch (category){
             case "Household":
-                houselinechart.setLineChartData(data);
+                cat_icon.setImageResource(R.drawable.ic_household);
+                cat_text.setText(category);
                 break;
 
             case "Eating-out":
-                houselinechart.setLineChartData(data);
+                cat_icon.setImageResource(R.drawable.ic_eating_out);
+                cat_text.setText(category);
                 break;
 
             case "Personal":
-                houselinechart.setLineChartData(data);
+                cat_icon.setImageResource(R.drawable.ic_personal);
+                cat_text.setText(category);
                 break;
 
             case "Grocery":
-                houselinechart.setLineChartData(data);
+                cat_icon.setImageResource(R.drawable.ic_grocery);
+                cat_text.setText(category);
                 break;
 
             case "Utilities":
-                houselinechart.setLineChartData(data);
+                cat_icon.setImageResource(R.drawable.ic_utilities);
+                cat_text.setText(category);
                 break;
 
             case "Medical":
-                houselinechart.setLineChartData(data);
+                cat_icon.setImageResource(R.drawable.ic_medical);
+                cat_text.setText(category);
                 break;
 
             case "Education":
-                houselinechart.setLineChartData(data);
+                cat_icon.setImageResource(R.drawable.ic_education);
+                cat_text.setText(category);
+                break;
+
+            case "Entertainment":
+                cat_icon.setImageResource(R.drawable.ic_entertainment);
+                cat_text.setText(category);
+                break;
+
+            case "Clothing":
+                cat_icon.setImageResource(R.drawable.ic_clothing);
+                cat_text.setText(category);
+                break;
+
+            case "Transportation":
+                cat_icon.setImageResource(R.drawable.ic_transportation);
+                cat_text.setText(category);
+                break;
+
+            case "Shopping":
+                cat_icon.setImageResource(R.drawable.ic_shopping);
+                cat_text.setText(category);
+                break;
+
+            case "Others":
+                cat_icon.setImageResource(R.drawable.savings);
+                cat_text.setText(category);
                 break;
 
                 default:
                     break;
         }
-
-        Axis axis = new Axis();
-        axis.setValues(axisValues);
-        data.setAxisXBottom(axis);
-
-        Axis yAxis = new Axis();
-        data.setAxisYLeft(yAxis);
-
-        axis.setTextSize(12);
-        axis.setTextColor(Color.BLACK);
-
-        yAxis.setTextColor(Color.BLACK);
-        yAxis.setTextSize(12);
-
-        axis.setName("Weeks");
-        yAxis.setName("Expenses");
 
     }
 

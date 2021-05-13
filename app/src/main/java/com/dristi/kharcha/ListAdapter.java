@@ -3,6 +3,8 @@ package com.dristi.kharcha;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,11 +30,14 @@ public class ListAdapter extends ArrayAdapter<ExpenseInfo> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
+        SharedPreferences preferences = context.getSharedPreferences("Currency",0);
+
         View view = LayoutInflater.from(context).inflate(R.layout.list_adapter,null);
 
         TextView name = view.findViewById(R.id.name),
                 category = view.findViewById(R.id.category),
                 amount = view.findViewById(R.id.amount),
+                currency = view.findViewById(R.id.currency),
                 date = view.findViewById(R.id.date);
 
         ImageView imageView = view.findViewById(R.id.image);
@@ -44,6 +49,7 @@ public class ListAdapter extends ArrayAdapter<ExpenseInfo> {
 
         category.setText(info.cashcredit);
         name.setText(info.category);
+        currency.setText(preferences.getString("currency","Rs.") + " ");
         amount.setText(String.valueOf(info.amount));
         date.setText(info.date);
 

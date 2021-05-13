@@ -4,6 +4,8 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import android.content.SharedPreferences;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,9 +32,12 @@ public class Income_adapter extends ArrayAdapter<ExpenseInfo> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
+        SharedPreferences preferences = context.getSharedPreferences("Currency",0);
+
         final View view = LayoutInflater.from(context).inflate(R.layout.incomeinflator,null);
 
-        TextView name=view.findViewById(R.id.category),
+        TextView name = view.findViewById(R.id.category),
+                currency = view.findViewById(R.id.currency),
                 description = view.findViewById(R.id.description),
                 amount=view.findViewById(R.id.amount);
 
@@ -45,6 +50,7 @@ public class Income_adapter extends ArrayAdapter<ExpenseInfo> {
         final ExpenseInfo info = getItem(position);
 
         name.setText(info.category);
+        currency.setText(preferences.getString("currency","Rs.") + " ");
         amount.setText(String.valueOf(info.amount));
 
         final int id = info.id;

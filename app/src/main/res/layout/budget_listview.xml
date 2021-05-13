@@ -86,7 +86,8 @@
                             android:layout_height="wrap_content"
                             android:text="Rs. "
                             android:textColor="#333"
-                            android:textSize="18sp" />
+                            android:textSize="18sp"
+                            android:id="@+id/currency"/>
 
                         <TextView
                             android:id="@+id/amount"

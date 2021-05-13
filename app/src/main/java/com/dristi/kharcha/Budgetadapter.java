@@ -1,6 +1,7 @@
 package com.dristi.kharcha;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import androidx.annotation.NonNull;
@@ -32,9 +33,12 @@ public class Budgetadapter extends ArrayAdapter<BudgetInfo> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
+        SharedPreferences preferences = context.getSharedPreferences("Currency",0);
+
         final View view = LayoutInflater.from(context).inflate(R.layout.budget_listview,null);
 
         TextView category = view.findViewById(R.id.category),
+                currency = view.findViewById(R.id.currency),
                 amount = view.findViewById(R.id.amount),
                 left = view.findViewById(R.id.left),
                 date = view.findViewById(R.id.date);
@@ -50,6 +54,7 @@ public class Budgetadapter extends ArrayAdapter<BudgetInfo> {
         final BudgetInfo info = getItem(position);
 
         category.setText(info.category);
+        currency.setText(preferences.getString("currency", "Rs.") + " ");
         date.setText(info.fromdate + "  -  " + info.todate);
 
         progressBar.setMax(info.amount);

@@ -185,15 +185,22 @@ public class ChartFragment extends Fragment {
     public void setDate(){
         final Dialog dialog = new Dialog(getActivity(),R.style.Theme_AppCompat_Light_Dialog_Alert);
 
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.chart_date_selection,null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.budget_dialog,null);
 
         final CalendarView calendarView = view.findViewById(R.id.datepicker);
 
-        final EditText fromdate = view.findViewById(R.id.fromdate),
+        final EditText amount = view.findViewById(R.id.amount),
+                fromdate = view.findViewById(R.id.fromdate),
                 todate = view.findViewById(R.id.todate);
+
+        final Spinner spinner = view.findViewById(R.id.category_spinner);
 
         Button ok =  view.findViewById(R.id.okbutton),
                 cancel = view.findViewById(R.id.cancelbutton);
+
+        amount.setVisibility(View.GONE);
+        spinner.setVisibility(View.GONE);
+        ok.setText("OK");
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override

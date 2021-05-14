@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name=".Navigation_drawer"
+            android:name=".SplashScreen"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,12 +19,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".Payments" />
+
+        <activity
+            android:name=".Navigation_drawer"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
         <activity
             android:name=".Lend_Borrow"
             android:label="Lend and Borrow" />
+
         <activity
             android:name=".Budget"
-            android:label="Budget"></activity>
+            android:label="Budget" />
+
+        <receiver android:name=".AlarmReceiver" />
+
     </application>
 
 </manifest>

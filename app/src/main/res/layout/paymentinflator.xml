@@ -11,8 +11,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="70dp"
+        android:paddingVertical="10dp"
         android:orientation="horizontal"
+        android:clickable="true"
         android:id="@+id/divider">
 
         <ImageView
@@ -62,17 +64,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="- "
+                android:text="- Rs. "
                 android:textColor="#e24c4c"
                 android:textSize="18sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Rs. "
-                android:textColor="#e24c4c"
-                android:textSize="18sp"
-                android:id="@+id/currency"/>
 
             <TextView
                 android:id="@+id/amount"

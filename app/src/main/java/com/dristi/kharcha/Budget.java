@@ -12,11 +12,13 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -58,6 +60,7 @@ public class Budget extends AppCompatActivity {
     private void initlist(){
 
         categorylist = new ArrayList<>();
+
         categorylist.add(new Categories_item("Household",R.drawable.ic_household));
         categorylist.add(new Categories_item("Eating-out",R.drawable.ic_eating_out));
         categorylist.add(new Categories_item("Grocery",R.drawable.ic_grocery));
@@ -193,7 +196,7 @@ public class Budget extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(isAmountEmpty(amount)){
+                if(isAmountEmpty(amount)) {
 
                     Categories_item categoryval = (Categories_item) spinner.getSelectedItem();
                     String categoryVal = categoryval.getName().toString();
@@ -213,9 +216,167 @@ public class Budget extends AppCompatActivity {
                     databaseHelper.insertBudget(contentValues);
                 }
 
-                listView.setAdapter(new Budgetadapter(Budget.this, databaseHelper.getbudgetlist()));
+                    listView.setAdapter(new Budgetadapter(Budget.this, databaseHelper.getbudgetlist()));
 
+                    dialog.dismiss();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 dialog.dismiss();
+            }
+        });
+
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
+    public void updateBudget(final int id){
+        final Dialog dialog = new Dialog(Budget.this,R.style.Theme_AppCompat_Light_Dialog_Alert);
+
+        View view = LayoutInflater.from(this).inflate(R.layout.budget_dialog,null);
+
+        final CalendarView calendarView = view.findViewById(R.id.datepicker);
+
+        final EditText amount = view.findViewById(R.id.amount),
+                fromdate = view.findViewById(R.id.fromdate),
+                todate = view.findViewById(R.id.todate);
+
+        final Spinner spinner = view.findViewById(R.id.category_spinner);
+
+        Button ok =  view.findViewById(R.id.okbutton),
+                cancel = view.findViewById(R.id.cancelbutton);
+
+        ok.setText("Update");
+
+        initlist();
+        Adapter = new Categories_adapter(Budget.this, categorylist);
+        spinner.setAdapter(Adapter);
+
+        BudgetInfo info = databaseHelper.getbudgetinfo(id);
+
+        amount.setText(String.valueOf(info.amount));
+        fromdate.setText(info.fromdate);
+        todate.setText(info.todate);
+
+        spinner.setSelection(findIndex(info.category));
+
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+
+                if(dayOfMonth<10){
+                    day = "0" + dayOfMonth;
+                }
+                else{
+                    day = "" + dayOfMonth;
+                }
+
+                if((month + 1 )<10){
+                    mon = "0" + (month + 1) ;
+                }
+                else{
+                    mon = "" + (month + 1) ;
+                }
+
+                datevalue = year + "-" + mon + "-" + day;
+
+                fromdate.setText(datevalue);
+            }
+        });
+
+        fromdate.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+                    @Override
+                    public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+
+                        if(dayOfMonth<10){
+                            day = "0" + dayOfMonth;
+                        }
+                        else{
+                            day = "" + dayOfMonth;
+                        }
+
+                        if((month + 1 )<10){
+                            mon = "0" + (month + 1) ;
+                        }
+                        else{
+                            mon = "" + (month + 1) ;
+                        }
+
+                        datevalue = year + "-" + mon + "-" + day;
+
+                        fromdate.setText(datevalue);
+                    }
+                });
+
+                return false;
+            }
+        });
+
+        todate.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+                    @Override
+                    public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+
+                        if(dayOfMonth<10){
+                            day = "0" + dayOfMonth;
+                        }
+                        else{
+                            day = "" + dayOfMonth;
+                        }
+
+                        if((month + 1 )<10){
+                            mon = "0" + (month + 1) ;
+                        }
+                        else{
+                            mon = "" + (month + 1) ;
+                        }
+
+                        datevalue = year + "-" + mon + "-" + day;
+
+                        todate.setText(datevalue);
+                    }
+                });
+
+                return false;
+            }
+        });
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(isAmountEmpty(amount)) {
+
+                    Categories_item categoryval = (Categories_item) spinner.getSelectedItem();
+                    String categoryVal = categoryval.getName().toString();
+
+                    String a = amount.getText().toString();
+                    int amountVal = Integer.parseInt(a);
+
+                    String fromd = fromdate.getText().toString();
+                    String tod = todate.getText().toString();
+
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put("fromdate", fromd);
+                    contentValues.put("amount", amountVal);
+                    contentValues.put("todate", tod);
+                    contentValues.put("category", categoryVal);
+
+                    databaseHelper.updatebudget(id, contentValues);
+                }
+
+                    listView.setAdapter(new Budgetadapter(Budget.this, databaseHelper.getbudgetlist()));
+
+                    dialog.dismiss();
             }
         });
 
@@ -239,6 +400,7 @@ public class Budget extends AppCompatActivity {
 
             case 1:
                 id = item.getGroupId();
+                updateBudget(id);
                 break;
 
             case 2:
@@ -275,5 +437,16 @@ public class Budget extends AppCompatActivity {
 
         }
         return super.onContextItemSelected(item);
+    }
+
+    private int findIndex(String cateogry) {
+        int selection = 0;
+        for(int i = 0; i < categorylist.size(); i++)  {
+            if (categorylist.get(i).getName().equals(cateogry)) {
+                selection = i;
+                break;
+            }
+        }
+        return selection;
     }
 }

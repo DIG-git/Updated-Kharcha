@@ -57,8 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "\t`fromdate`\tTEXT,\n" +
             "\t`amount`\tINTEGER,\n" +
             "\t`category`\tTEXT,\n" +
-            "\t`todate`\tTEXT,\n" +
-            "\t`status`\tTEXT\n" +
+            "\t`todate`\tTEXT\n" +
             ")";
 
     public DatabaseHelper(Context context) {
@@ -146,6 +145,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         getWritableDatabase().update("expense",contentValues,"id="+id,null);
     }
 
+    public void updatebudget(Integer id,ContentValues contentValues){
+        getWritableDatabase().update("budget",contentValues,"id="+id,null);
+    }
+
     public ArrayList<BudgetInfo> getbudgetlist()
     {
         String sql = "Select * from budget ";
@@ -177,6 +180,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             info.category = c.getString(c.getColumnIndex("category"));
             info.description = c.getString(c.getColumnIndex("description"));
             info.cashcredit = c.getString(c.getColumnIndex("cashcredit"));
+        }
+        c.close();
+        return info;
+    }
+
+    public BudgetInfo getbudgetinfo(int id){
+        String sql= "Select * from budget where id=" + id;
+        Cursor c=getReadableDatabase().rawQuery(sql,null);
+        BudgetInfo info= new BudgetInfo();
+        while(c.moveToNext())
+        {
+            info.id = c.getInt(c.getColumnIndex("id"));
+            info.fromdate = c.getString(c.getColumnIndex("fromdate"));
+            info.amount = c.getInt(c.getColumnIndex("amount"));
+            info.category = c.getString(c.getColumnIndex("category"));
+            info.todate = c.getString(c.getColumnIndex("todate"));
         }
         c.close();
         return info;
@@ -461,7 +480,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         c.close();
         return value;
     }
-
 
     public ArrayList<ExpenseInfo> getrecentexpenselist()
     {

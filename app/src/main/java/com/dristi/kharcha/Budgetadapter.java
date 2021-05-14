@@ -16,7 +16,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Budgetadapter extends ArrayAdapter<BudgetInfo> {
 
@@ -41,6 +43,7 @@ public class Budgetadapter extends ArrayAdapter<BudgetInfo> {
                 currency = view.findViewById(R.id.currency),
                 amount = view.findViewById(R.id.amount),
                 left = view.findViewById(R.id.left),
+                status = view.findViewById(R.id.status),
                 date = view.findViewById(R.id.date);
 
         ProgressBar progressBar = view.findViewById(R.id.myprogress);
@@ -56,6 +59,18 @@ public class Budgetadapter extends ArrayAdapter<BudgetInfo> {
         category.setText(info.category);
         currency.setText(preferences.getString("currency", "Rs.") + " ");
         date.setText(info.fromdate + "  -  " + info.todate);
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String to_date = df.format(Calendar.getInstance().getTime());
+
+        if(to_date.compareTo(info.todate) > 0){
+            status.setText("Expired");
+            status.setTextColor(Color.RED);
+        }
+        else{
+            status.setText("Active");
+            status.setTextColor(Color.GREEN);
+        }
 
         progressBar.setMax(info.amount);
 

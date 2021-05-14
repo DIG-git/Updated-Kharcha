@@ -32,13 +32,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import lecho.lib.hellocharts.model.Axis;
-import lecho.lib.hellocharts.model.AxisValue;
-import lecho.lib.hellocharts.model.Line;
-import lecho.lib.hellocharts.model.LineChartData;
-import lecho.lib.hellocharts.model.PointValue;
-import lecho.lib.hellocharts.view.LineChartView;
-
 public class LineChartFragment extends Fragment {
 
     LineChart linechart;

@@ -3,36 +3,39 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundblue"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        android:background="@color/colorPrimary">
+        android:background="@color/white">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Pie Chart"
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="18sp"
-            android:textColor="#FFFF"
-            android:textStyle="bold"
+            android:textColor="@color/skyblue"
+            android:textStyle="normal"
             android:id="@+id/pie"/>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Line Chart"
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="18sp"
-            android:textColor="#FFF"
-            android:textStyle="bold"
+            android:textColor="@color/skyblue"
+            android:textStyle="normal"
             android:id="@+id/line"/>
 
     </LinearLayout>

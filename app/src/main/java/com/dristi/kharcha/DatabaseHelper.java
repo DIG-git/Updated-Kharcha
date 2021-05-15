@@ -69,6 +69,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "\t`cashcredit`\tTEXT\n" +
             ")";
 
+    String getSqlCreateRemindersTable="CREATE TABLE if not exists `reminders` (\n" +
+            "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+            "\t`hour`\tINTEGER,\n" +
+            "\t`minute`\tINTEGER\n" +
+            ")";
+
     public DatabaseHelper(Context context) {
         super(context, name,null, version);
 
@@ -83,6 +89,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         getWritableDatabase().execSQL(sqlCreateBudgetTable);
 
         getWritableDatabase().execSQL(sqlCreatePaymentsTable);
+
+        getWritableDatabase().execSQL(getSqlCreateRemindersTable);
     }
 
 //    public void insertUser (ContentValues contentValues)
@@ -537,6 +545,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             info.category = c.getString(c.getColumnIndex("category"));
             info.description = c.getString(c.getColumnIndex("description"));
             info.cashcredit = c.getString(c.getColumnIndex("cashcredit"));
+        }
+        c.close();
+        return info;
+    }
+
+    public void insertReminder (ContentValues contentValues)
+    {
+        getWritableDatabase().insert("reminders","",contentValues);
+    }
+
+    public ReminderInfo getRecentReminder(){
+        String sql = "Select * from reminders ORDER BY id DESC LIMIT 1";
+        Cursor c = getReadableDatabase().rawQuery(sql,null);
+        ReminderInfo info = new ReminderInfo();
+        while(c.moveToNext())
+        {
+            info.id = c.getInt(c.getColumnIndex("id"));
+            info.hour = c.getInt(c.getColumnIndex("hour"));
+            info.minute = c.getInt(c.getColumnIndex("minute"));
         }
         c.close();
         return info;

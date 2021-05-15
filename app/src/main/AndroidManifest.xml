@@ -18,7 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Payments" />
+        <activity android:name=".Payments"
+            android:label="Payments"/>
         <activity
             android:name=".Navigation_drawer"
             android:theme="@style/AppTheme.NoActionBar">

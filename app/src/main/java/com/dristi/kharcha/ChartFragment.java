@@ -55,7 +55,7 @@ public class ChartFragment extends Fragment {
 
         dbhelper = new DatabaseHelper(getActivity());
 
-        pie.setBackgroundResource(R.drawable.layerlist_chart);
+        pie.setBackgroundResource(R.drawable.layerlist_records);
 
         preferences = getActivity().getSharedPreferences("ChartDate", 0);
 
@@ -116,13 +116,13 @@ public class ChartFragment extends Fragment {
         line.setBackgroundColor(Color.TRANSPARENT);
         if(view.getId()==R.id.pie){
             i = 0;
-            pie.setBackgroundResource(R.drawable.layerlist_chart);
+            pie.setBackgroundResource(R.drawable.layerlist_records);
             PieChartFragment pieChartFragment = new PieChartFragment();
             getChildFragmentManager().beginTransaction().replace(R.id.frame,pieChartFragment).commit();
         }
         else{
             i = 1;
-            line.setBackgroundResource(R.drawable.layerlist_chart);
+            line.setBackgroundResource(R.drawable.layerlist_records);
             LineChartFragment lineChartFragment = new LineChartFragment();
             getChildFragmentManager().beginTransaction().replace(R.id.frame,lineChartFragment).commit();
         }
@@ -134,12 +134,12 @@ public class ChartFragment extends Fragment {
 
         if(i == 0)
         {
-            pie.setBackgroundResource(R.drawable.layerlist_chart);
+            pie.setBackgroundResource(R.drawable.layerlist_records);
             PieChartFragment pieChartFragment = new PieChartFragment();
             getChildFragmentManager().beginTransaction().replace(R.id.frame,pieChartFragment).commit();
         }
         else{
-            line.setBackgroundResource(R.drawable.layerlist_chart);
+            line.setBackgroundResource(R.drawable.layerlist_records);
             LineChartFragment lineChartFragment = new LineChartFragment();
             getChildFragmentManager().beginTransaction().replace(R.id.frame,lineChartFragment).commit();
         }
@@ -296,12 +296,12 @@ public class ChartFragment extends Fragment {
 
                 if(i == 0)
                 {
-                    pie.setBackgroundResource(R.drawable.layerlist_chart);
+                    pie.setBackgroundResource(R.drawable.layerlist_records);
                     PieChartFragment pieChartFragment = new PieChartFragment();
                     getChildFragmentManager().beginTransaction().replace(R.id.frame,pieChartFragment).commit();
                 }
                 else{
-                    line.setBackgroundResource(R.drawable.layerlist_chart);
+                    line.setBackgroundResource(R.drawable.layerlist_records);
                     LineChartFragment lineChartFragment = new LineChartFragment();
                     getChildFragmentManager().beginTransaction().replace(R.id.frame,lineChartFragment).commit();
                 }

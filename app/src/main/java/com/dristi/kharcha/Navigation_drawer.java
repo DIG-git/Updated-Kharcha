@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -62,22 +63,32 @@ public class Navigation_drawer extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
-//        preferences = getSharedPreferences("Userinfo",0);
-
-        //id = getIntent().getStringExtra("id");
-
-//        id = preferences.getString("userid","");
-
         databaseHelper = new DatabaseHelper(this);
+
+        ReminderInfo info = new ReminderInfo();
+        info = databaseHelper.getRecentReminder();
+
+        if(info.equals(null)){
+            alarmManager();
+        }else{
+            AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Date dat = new Date();
+            Calendar cal_alarm = Calendar.getInstance();
+            Calendar cal_now = Calendar.getInstance();
+            cal_now.setTime(dat);
+            cal_alarm.setTime(dat);
+            cal_alarm.set(Calendar.HOUR_OF_DAY,info.hour);
+            cal_alarm.set(Calendar.MINUTE,info.minute);
+            if(cal_alarm.before(cal_now)){
+                cal_alarm.add(Calendar.DATE,1);
+            }
+
+            Intent myIntent = new Intent(Navigation_drawer.this, AlarmReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(Navigation_drawer.this, 0, myIntent, 0);
+
+            manager.setRepeating(AlarmManager.RTC_WAKEUP,cal_alarm.getTimeInMillis(),1000 * 60 * 60 * 24, pendingIntent);
+            //manager.set(AlarmManager.RTC_WAKEUP,cal_alarm.getTimeInMillis(), pendingIntent);
+        }
 
         final BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -315,6 +326,8 @@ public class Navigation_drawer extends AppCompatActivity
 
     }
 
+    private static boolean reminderSet;
+
     public void showCustomdialog(){
         final Dialog dialog = new Dialog(this);
         dialog.setTitle("Set a Reminder");
@@ -344,24 +357,15 @@ public class Navigation_drawer extends AppCompatActivity
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                //String timevalue = timePicker.getHour()+"-"+timePicker.getMinute();
-                AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                Date dat = new Date();
-                Calendar cal_alarm = Calendar.getInstance();
-                Calendar cal_now = Calendar.getInstance();
-                cal_now.setTime(dat);
-                cal_alarm.setTime(dat);
-                cal_alarm.set(Calendar.HOUR_OF_DAY,timePicker.getHour());
-                cal_alarm.set(Calendar.MINUTE,timePicker.getMinute());
-                if(cal_alarm.before(cal_now)){
-                    cal_alarm.add(Calendar.DATE,1);
-                }
 
-                Intent myIntent = new Intent(Navigation_drawer.this, AlarmReceiver.class);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(Navigation_drawer.this, 0, myIntent, 0);
+                reminderSet = true;
 
-                manager.setRepeating(AlarmManager.RTC_WAKEUP,cal_alarm.getTimeInMillis(),1000 * 60 * 60 * 24, pendingIntent);
-                //manager.set(AlarmManager.RTC_WAKEUP,cal_alarm.getTimeInMillis(), pendingIntent);
+                ContentValues contentValues = new ContentValues();
+                contentValues.put("hour", timePicker.getHour());
+                contentValues.put("minute", timePicker.getMinute());
+
+                databaseHelper.insertReminder(contentValues);
+
                 dialog.dismiss();
             }
         });
@@ -376,6 +380,25 @@ public class Navigation_drawer extends AppCompatActivity
         dialog.setContentView(view);
         dialog.show();
 
+    }
+
+    public void alarmManager(){
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Date dat = new Date();
+        Calendar cal_alarm = Calendar.getInstance();
+        Calendar cal_now = Calendar.getInstance();
+        cal_now.setTime(dat);
+        cal_alarm.setTime(dat);
+        cal_alarm.set(Calendar.HOUR_OF_DAY,9);
+        cal_alarm.set(Calendar.MINUTE,55);
+        if(cal_alarm.before(cal_now)){
+            cal_alarm.add(Calendar.DATE,1);
+        }
+
+        Intent myIntent = new Intent(Navigation_drawer.this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(Navigation_drawer.this, 0, myIntent, 0);
+
+        manager.setRepeating(AlarmManager.RTC_WAKEUP,cal_alarm.getTimeInMillis(),1000 * 60 * 60 * 24, pendingIntent);
     }
 
 

@@ -6,6 +6,8 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import androidx.annotation.NonNull;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -45,6 +47,9 @@ public class Budget extends AppCompatActivity {
 
         floatingActionButton = findViewById(R.id.entry);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         databaseHelper = new DatabaseHelper(this);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +62,16 @@ public class Budget extends AppCompatActivity {
         listView.setAdapter(new Budgetadapter(Budget.this, databaseHelper.getbudgetlist()));
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
     private void initlist(){
 
         categorylist = new ArrayList<>();

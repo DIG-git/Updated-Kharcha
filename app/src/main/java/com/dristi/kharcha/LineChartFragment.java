@@ -2,17 +2,13 @@ package com.dristi.kharcha;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,13 +20,11 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class LineChartFragment extends Fragment {
 
@@ -111,7 +105,7 @@ public class LineChartFragment extends Fragment {
 
     public void makechart(String category){
 
-        setDate(fromd);
+        setDate(getnewfromdate(fromd));
 
         ArrayList<Entry> dataSet = new ArrayList<>();
 
@@ -220,6 +214,23 @@ public class LineChartFragment extends Fragment {
         }
 
         calendar.add(Calendar.DATE,7);
+        String newdate = df.format(calendar.getTime());
+        return newdate;
+    }
+
+    public String getnewfromdate(String date){
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar = Calendar.getInstance();
+
+        try{
+            calendar.setTime(df.parse(date));
+        }
+        catch (ParseException e){
+            e.printStackTrace();
+        }
+
+        calendar.add(Calendar.DATE,-1);
         String newdate = df.format(calendar.getTime());
         return newdate;
     }

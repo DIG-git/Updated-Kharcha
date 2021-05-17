@@ -118,7 +118,7 @@ public class Payments extends AppCompatActivity {
         final Spinner spinnercategories = view.findViewById(R.id.categories);
 
         final CheckBox payments = view.findViewById(R.id.payments);
-        payments.setVisibility(View.INVISIBLE);
+        payments.setVisibility(View.GONE);
 
         income_spinner.setAdapter(new Income_spinner(this, getSpinner()));
         initlist();
@@ -198,7 +198,7 @@ public class Payments extends AppCompatActivity {
         final Spinner spinnercategories = view.findViewById(R.id.categories);
 
         final CheckBox payments = view.findViewById(R.id.payments);
-        payments.setVisibility(View.INVISIBLE);
+        payments.setVisibility(View.GONE);
 
         income_spinner.setAdapter(new Income_spinner(this, getSpinner()));
         initlist();

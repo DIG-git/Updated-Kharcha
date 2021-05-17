@@ -30,7 +30,7 @@ public class Budget extends AppCompatActivity {
 
     DatabaseHelper databaseHelper;
 
-    String day, date, mon, datevalue;
+    String day, mon, datevalue;
 
     private ArrayList<Categories_item> categorylist;
 

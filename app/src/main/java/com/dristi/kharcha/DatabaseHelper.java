@@ -195,6 +195,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
+
+
+    public BudgetInfo getbudgetdetail(int id)
+    {
+        String sql = "Select * from budget where id =" +id;
+        Cursor c = getReadableDatabase().rawQuery(sql,null);
+        BudgetInfo info = new BudgetInfo();
+
+        while(c.moveToNext())
+        {
+            info.id = c.getInt(c.getColumnIndex("id"));
+            info.fromdate = c.getString(c.getColumnIndex("fromdate"));
+            info.amount = c.getInt(c.getColumnIndex("amount"));
+            info.category = c.getString(c.getColumnIndex("category"));
+            info.todate = c.getString(c.getColumnIndex("todate"));
+        }
+        c.close();
+        return info;
+    }
+
     public BudgetInfo getbudgetinfo(int id){
         String sql= "Select * from budget where id=" + id;
         Cursor c=getReadableDatabase().rawQuery(sql,null);
@@ -245,6 +265,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public int getlinecategorytotal(String category, String date){
 
         String sql = "Select * from expense where category = '" + category + "' AND date >= date('" + date + "') AND date < date('" + date + "', '+7 day')";
+        Cursor c = getReadableDatabase().rawQuery(sql,null);
+        int sum = 0,total = 0;
+        while (c.moveToNext()){
+            sum = c.getInt(c.getColumnIndex("amount"));
+            total = total + sum;
+        }
+        c.close();
+        return total;
+    }
+
+    public int getbudgetdetailtotal(String category, String date){
+
+        String sql = "Select * from expense where category = '" + category + "' AND date >= date('" + date + "') AND date < date('" + date + "', '+1 day')";
         Cursor c = getReadableDatabase().rawQuery(sql,null);
         int sum = 0,total = 0;
         while (c.moveToNext()){
@@ -494,6 +527,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public ArrayList<ExpenseInfo> getrecentexpenselist()
     {
         String sql = "SELECT * from expense order by date DESC limit 15";
+        Cursor c=getReadableDatabase().rawQuery(sql,null);
+        ArrayList<ExpenseInfo> list = new ArrayList<>();
+        while(c.moveToNext())
+        {
+            ExpenseInfo info= new ExpenseInfo();
+            info.id = c.getInt(c.getColumnIndex("id"));
+            info.date = c.getString(c.getColumnIndex("date"));
+            info.amount = c.getInt(c.getColumnIndex("amount"));
+            info.category = c.getString(c.getColumnIndex("category"));
+            info.description = c.getString(c.getColumnIndex("description"));
+            info.cashcredit = c.getString(c.getColumnIndex("cashcredit"));
+            list.add(info);
+        }
+        c.close();
+        return list;
+    }
+
+    public ArrayList<ExpenseInfo> getbudgetexpenselist(String category, String fromd, String tod)
+    {
+        String sql = "Select * from expense where category = '" + category + "' AND date >= date('" + fromd + "') AND date <= date('" + tod + "')";
         Cursor c=getReadableDatabase().rawQuery(sql,null);
         ArrayList<ExpenseInfo> list = new ArrayList<>();
         while(c.moveToNext())

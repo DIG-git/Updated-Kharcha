@@ -51,7 +51,7 @@ public class BudgetChartFrag extends Fragment {
 
         final BudgetInfo info = databaseHelper.getbudgetdetail(id);
 
-        setDate(getnewfromdate(info.fromdate));
+        setDate(info.fromdate);
 
         ArrayList<Entry> dataSet = new ArrayList<>();
 
@@ -96,23 +96,6 @@ public class BudgetChartFrag extends Fragment {
         }
 
         calendar.add(Calendar.DATE,1);
-        String newdate = df.format(calendar.getTime());
-        return newdate;
-    }
-
-    public String getnewfromdate(String date){
-
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar calendar = Calendar.getInstance();
-
-        try{
-            calendar.setTime(df.parse(date));
-        }
-        catch (ParseException e){
-            e.printStackTrace();
-        }
-
-        calendar.add(Calendar.DATE,-1);
         String newdate = df.format(calendar.getTime());
         return newdate;
     }

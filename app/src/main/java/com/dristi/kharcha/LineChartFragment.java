@@ -105,7 +105,7 @@ public class LineChartFragment extends Fragment {
 
     public void makechart(String category){
 
-        setDate(getnewfromdate(fromd));
+        setDate(fromd);
 
         ArrayList<Entry> dataSet = new ArrayList<>();
 
@@ -214,23 +214,6 @@ public class LineChartFragment extends Fragment {
         }
 
         calendar.add(Calendar.DATE,7);
-        String newdate = df.format(calendar.getTime());
-        return newdate;
-    }
-
-    public String getnewfromdate(String date){
-
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar calendar = Calendar.getInstance();
-
-        try{
-            calendar.setTime(df.parse(date));
-        }
-        catch (ParseException e){
-            e.printStackTrace();
-        }
-
-        calendar.add(Calendar.DATE,-1);
         String newdate = df.format(calendar.getTime());
         return newdate;
     }

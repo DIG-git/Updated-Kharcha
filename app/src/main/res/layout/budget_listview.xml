@@ -61,9 +61,7 @@
                         android:layout_marginTop="5dp"
                         android:text="Expired"
                         android:textColor="#42B511"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:layout_gravity="end"
+                        android:textSize="15sp"
                         android:textAlignment="viewEnd"
                         android:gravity="end"/>
 

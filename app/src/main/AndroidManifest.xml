@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_kharcha_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Budget_info"></activity>
+        <activity android:name=".About"></activity>
+        <activity android:name=".Budget_info" />
         <activity
             android:name=".SplashScreen"
             android:theme="@style/AppTheme.NoActionBar">
@@ -19,14 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Payments"
             android:label="Payments" />
-
         <activity
             android:name=".Navigation_drawer"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Lend_Borrow"
             android:label="Lend and Borrow" />

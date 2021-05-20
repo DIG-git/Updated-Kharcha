@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".About">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="5dp"
+                    android:src="@mipmap/ic_kharcha_round">
+
+                </de.hdodenhof.circleimageview.CircleImageView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kharcha"
+                    android:textSize="25sp"
+                    android:textColor="#000000"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="3dp">
+
+                </TextView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="8dp"
+                    android:justificationMode="inter_word"
+                    android:text="Kharcha: Expense Tracking System is an application which provides a way for organizing, pre-planning, managing, predicting and tracking the daily income
+and expense so you can effectively keep record of the expenses
+for efficient use of their income or monthly allowance. It enables you to not just keep the tab on the expenses but also to plan ahead keeping the past
+budget in mind. It also allows the users to keep track of the lend-borrow records and payments.
+Also, it provides you with a pre-planning system to plan your
+weekly, monthly records or plan your trips, events and tours, providing a range of
+time for the system to monitor the planned budget and the real-time expenses made
+by you."
+                    android:textSize="15sp"
+                    android:textColor="#686868">
+
+                </TextView>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

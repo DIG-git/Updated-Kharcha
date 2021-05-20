@@ -5,6 +5,9 @@ import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -66,6 +69,9 @@ public class Lend_Borrow extends AppCompatActivity {
         listView = findViewById(R.id.listview);
         registerForContextMenu(listView);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         databaseHelper =new DatabaseHelper(this);
 
         adapter = new Adapter_Listview(this,databaseHelper.getlblist());
@@ -78,6 +84,16 @@ public class Lend_Borrow extends AppCompatActivity {
                 add_lend_borrow();
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private int Id;

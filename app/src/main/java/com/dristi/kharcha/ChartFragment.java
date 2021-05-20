@@ -1,7 +1,6 @@
 package com.dristi.kharcha;
 
 import android.app.Dialog;
-import android.content.ContentValues;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -64,9 +63,6 @@ public class ChartFragment extends Fragment {
 
         fromd = preferences.getString("fromd"," ");
         tod = preferences.getString("tod"," ");
-
-        PieChartFragment pieChartFragment = new PieChartFragment();
-        getChildFragmentManager().beginTransaction().replace(R.id.frame,pieChartFragment).commit();
 
         pie.setOnClickListener(new View.OnClickListener() {
             @Override

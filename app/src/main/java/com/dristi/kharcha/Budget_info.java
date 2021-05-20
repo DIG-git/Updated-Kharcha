@@ -1,64 +1,78 @@
 package com.dristi.kharcha;
 
-import android.content.Context;
-import android.content.Intent;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.os.Bundle;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 
-public class Budgetadapter extends ArrayAdapter<BudgetInfo> {
+public class Budget_info extends AppCompatActivity {
 
-    Context context;
+    TextView category, currency, amount, left, status, date, currencyb, amountb;
 
-    DatabaseHelper databaseHelper;
+    ImageView imageView;
 
-    public Budgetadapter(@NonNull Context context, ArrayList<BudgetInfo> list) {
-        super(context, 0, list);
-        this.context = context;
-    }
+    ProgressBar progressBar;
 
-    @NonNull
+    DatabaseHelper dbhelper;
+
+    SharedPreferences preferences, detail_id;
+
+    TextView list, chart;
+
+    ViewPager pager;
+
+    int id;
+
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_budget_info);
 
-        SharedPreferences preferences = context.getSharedPreferences("Currency",0);
+        id = getIntent().getIntExtra("id",0);
 
-        final View view = LayoutInflater.from(context).inflate(R.layout.budget_listview,null);
+        dbhelper = new DatabaseHelper(this);
 
-        TextView category = view.findViewById(R.id.category),
-                currency = view.findViewById(R.id.currency),
-                amount = view.findViewById(R.id.amount),
-                left = view.findViewById(R.id.left),
-                status = view.findViewById(R.id.status),
-                date = view.findViewById(R.id.date);
+        category = findViewById(R.id.category);
+        currency = findViewById(R.id.currency);
+        amount = findViewById(R.id.amount);
+        left = findViewById(R.id.left);
+        status = findViewById(R.id.status);
+        date = findViewById(R.id.date);
+        currencyb = findViewById(R.id.currencyb);
+        amountb = findViewById(R.id.amountb);
+        list = findViewById(R.id.list);
+        chart = findViewById(R.id.chart);
 
-        ProgressBar progressBar = view.findViewById(R.id.myprogress);
+        imageView = findViewById(R.id.image);
 
-        ImageView imageView = view.findViewById(R.id.image);
+        progressBar = findViewById(R.id.myprogress);
 
-        CardView cardView = view.findViewById(R.id.budgetlist);
+        pager = findViewById(R.id.pager);
 
-        databaseHelper = new DatabaseHelper(getContext());
+        preferences = Budget_info.this.getSharedPreferences("Currency",0);
+        detail_id = Budget_info.this.getSharedPreferences("Detail_id",0);
 
-        final BudgetInfo info = getItem(position);
+        final BudgetInfo info = dbhelper.getbudgetdetail(id);
+
+        detail_id.edit().putInt("id", info.id).commit();
 
         category.setText(info.category);
         currency.setText(preferences.getString("currency", "Rs.") + " ");
+        currencyb.setText(preferences.getString("currency", "Rs.") + " ");
         date.setText(info.fromdate + "  -  " + info.todate);
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -75,7 +89,9 @@ public class Budgetadapter extends ArrayAdapter<BudgetInfo> {
 
         progressBar.setMax(info.amount);
 
-        int total = databaseHelper.getBudgettotal(info.category, info.fromdate, info.todate);
+        int total = dbhelper.getBudgettotal(info.category, info.fromdate, info.todate);
+
+        amountb.setText(String.valueOf(info.amount));
 
         if(total == 0){
             progressBar.setProgress(0);
@@ -95,8 +111,6 @@ public class Budgetadapter extends ArrayAdapter<BudgetInfo> {
 
             left.setText("Overspent");
         }
-
-        final int id = info.id;
 
         switch (info.category){
             case "Household":
@@ -145,25 +159,54 @@ public class Budgetadapter extends ArrayAdapter<BudgetInfo> {
                 break;
         }
 
-        cardView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-            @Override
-            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        pager.setCurrentItem(0);
+        pager.setAdapter(new pagerAdapter(getSupportFragmentManager()));
+        list.setBackgroundColor(Color.parseColor("#FF6C6C6C"));
 
-                menu.add(id, v.getId(), 1,"Edit");
-                menu.add(id, v.getId(), 2,"Delete");
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position == 0){
+                    list.setBackgroundColor(Color.parseColor("#FF6C6C6C"));
+                    chart.setBackgroundColor(Color.parseColor("#FFCDCDCD"));
+                }
+                else{
+                    list.setBackgroundColor(Color.parseColor("#FFCDCDCD"));
+                    chart.setBackgroundColor(Color.parseColor("#FF6C6C6C"));
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
 
             }
         });
 
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, Budget_info.class);
-                intent.putExtra("id", id);
-                context.startActivity(intent);
-            }
-        });
+    }
 
-        return view;
+    public class pagerAdapter extends FragmentPagerAdapter{
+
+        public pagerAdapter(@NonNull FragmentManager fm) {
+            super(fm);
+        }
+
+        @NonNull
+        @Override
+        public Fragment getItem(int position) {
+             if(position == 0){
+                 return new BudgetListFrag();
+             }
+             return new BudgetChartFrag();
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
     }
 }

@@ -258,7 +258,7 @@ public class Navigation_drawer extends AppCompatActivity
             startActivity(Intent.createChooser(myintent,"Share using"));
         }
         else if (id == R.id.about){
-
+            startActivity(new Intent(Navigation_drawer.this, About.class));
         }
         else if (id == R.id.feedback){
             Intent intent=new Intent(Intent.ACTION_SEND);

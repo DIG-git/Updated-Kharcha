@@ -14,17 +14,15 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class Budget extends AppCompatActivity {
+public class Budgets extends AppCompatActivity {
 
     ListView listView;
 
@@ -59,7 +57,7 @@ public class Budget extends AppCompatActivity {
             }
         });
 
-        listView.setAdapter(new Budgetadapter(Budget.this, databaseHelper.getbudgetlist()));
+        listView.setAdapter(new Budgetadapter(Budgets.this, databaseHelper.getbudgetlist()));
     }
 
     @Override
@@ -76,18 +74,18 @@ public class Budget extends AppCompatActivity {
 
         categorylist = new ArrayList<>();
 
-        categorylist.add(new Categories_item("Household",R.drawable.ic_household));
-        categorylist.add(new Categories_item("Eating-out",R.drawable.ic_eating_out));
-        categorylist.add(new Categories_item("Grocery",R.drawable.ic_grocery));
-        categorylist.add(new Categories_item("Personal",R.drawable.ic_personal));
-        categorylist.add(new Categories_item("Utilities",R.drawable.ic_utilities));
-        categorylist.add(new Categories_item("Medical",R.drawable.ic_medical));
-        categorylist.add(new Categories_item("Education",R.drawable.ic_education));
-        categorylist.add(new Categories_item("Entertainment",R.drawable.ic_entertainment));
-        categorylist.add(new Categories_item("Clothing",R.drawable.ic_clothing));
-        categorylist.add(new Categories_item("Transportation",R.drawable.ic_transportation));
-        categorylist.add(new Categories_item("Shopping",R.drawable.ic_shopping));
-        categorylist.add(new Categories_item("Others",R.drawable.savings));
+        categorylist.add(new Categories_item("Clothing", R.drawable.ic_clothing));
+        categorylist.add(new Categories_item("Eating-out", R.drawable.ic_eating_out));
+        categorylist.add(new Categories_item("Education", R.drawable.ic_education));
+        categorylist.add(new Categories_item("Entertainment", R.drawable.ic_entertainment));
+        categorylist.add(new Categories_item("Grocery", R.drawable.ic_grocery));
+        categorylist.add(new Categories_item("Household", R.drawable.ic_household));
+        categorylist.add(new Categories_item("Medical", R.drawable.ic_medical));
+        categorylist.add(new Categories_item("Personal", R.drawable.ic_personal));
+        categorylist.add(new Categories_item("Shopping", R.drawable.ic_shopping));
+        categorylist.add(new Categories_item("Transportation", R.drawable.ic_transportation));
+        categorylist.add(new Categories_item("Utilities", R.drawable.ic_utilities));
+        categorylist.add(new Categories_item("Others", R.drawable.savings));
 
     }
 
@@ -101,7 +99,7 @@ public class Budget extends AppCompatActivity {
     }
 
     public void addBudget(){
-        final Dialog dialog = new Dialog(Budget.this,R.style.Theme_AppCompat_Light_Dialog_Alert);
+        final Dialog dialog = new Dialog(Budgets.this,R.style.Theme_AppCompat_Light_Dialog_Alert);
 
         View view = LayoutInflater.from(this).inflate(R.layout.budget_dialog,null);
 
@@ -117,7 +115,7 @@ public class Budget extends AppCompatActivity {
                 cancel = view.findViewById(R.id.cancelbutton);
 
         initlist();
-        Adapter = new Categories_adapter(Budget.this, categorylist);
+        Adapter = new Categories_adapter(Budgets.this, categorylist);
         spinner.setAdapter(Adapter);
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -231,7 +229,7 @@ public class Budget extends AppCompatActivity {
                     databaseHelper.insertBudget(contentValues);
                 }
 
-                    listView.setAdapter(new Budgetadapter(Budget.this, databaseHelper.getbudgetlist()));
+                    listView.setAdapter(new Budgetadapter(Budgets.this, databaseHelper.getbudgetlist()));
 
                     dialog.dismiss();
             }
@@ -249,7 +247,7 @@ public class Budget extends AppCompatActivity {
     }
 
     public void updateBudget(final int id){
-        final Dialog dialog = new Dialog(Budget.this,R.style.Theme_AppCompat_Light_Dialog_Alert);
+        final Dialog dialog = new Dialog(Budgets.this,R.style.Theme_AppCompat_Light_Dialog_Alert);
 
         View view = LayoutInflater.from(this).inflate(R.layout.budget_dialog,null);
 
@@ -267,7 +265,7 @@ public class Budget extends AppCompatActivity {
         ok.setText("Update");
 
         initlist();
-        Adapter = new Categories_adapter(Budget.this, categorylist);
+        Adapter = new Categories_adapter(Budgets.this, categorylist);
         spinner.setAdapter(Adapter);
 
         BudgetInfo info = databaseHelper.getbudgetinfo(id);
@@ -389,7 +387,7 @@ public class Budget extends AppCompatActivity {
                     databaseHelper.updatebudget(id, contentValues);
                 }
 
-                    listView.setAdapter(new Budgetadapter(Budget.this, databaseHelper.getbudgetlist()));
+                    listView.setAdapter(new Budgetadapter(Budgets.this, databaseHelper.getbudgetlist()));
 
                     dialog.dismiss();
             }
@@ -421,7 +419,7 @@ public class Budget extends AppCompatActivity {
             case 2:
                 id = item.getGroupId();
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(Budget.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(Budgets.this);
 
                 builder.setTitle("Delete item !!");
                 builder.setMessage("Are you sure you want to delete this?");
@@ -432,7 +430,7 @@ public class Budget extends AppCompatActivity {
 
                         databaseHelper.deletebudget(id);
 
-                        listView.setAdapter(new Budgetadapter(Budget.this, databaseHelper.getbudgetlist()));
+                        listView.setAdapter(new Budgetadapter(Budgets.this, databaseHelper.getbudgetlist()));
                     }
                 });
 

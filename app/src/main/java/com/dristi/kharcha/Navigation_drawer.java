@@ -2,13 +2,10 @@ package com.dristi.kharcha;
 
 import android.app.AlarmManager;
 import android.app.Dialog;
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -23,20 +20,15 @@ import androidx.core.view.GravityCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import android.util.Log;
+
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -87,7 +79,6 @@ public class Navigation_drawer extends AppCompatActivity
             PendingIntent pendingIntent = PendingIntent.getBroadcast(Navigation_drawer.this, 0, myIntent, 0);
 
             manager.setRepeating(AlarmManager.RTC_WAKEUP,cal_alarm.getTimeInMillis(),1000 * 60 * 60 * 24, pendingIntent);
-            //manager.set(AlarmManager.RTC_WAKEUP,cal_alarm.getTimeInMillis(), pendingIntent);
         }
 
         final BottomNavigationView navigation = findViewById(R.id.navigation);
@@ -140,30 +131,6 @@ public class Navigation_drawer extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-//        username = navigationView.getHeaderView(0).findViewById(R.id.username);
-//        email = navigationView.getHeaderView(0).findViewById(R.id.email);
-//        gender = navigationView.getHeaderView(0).findViewById(R.id.imageView);
-//
-//        username.setText(preferences.getString("username", null));
-//        email.setText(preferences.getString("email", null));
-
-        /*Userinfo info = databaseHelper.getuserinfo(id);
-        username.setText(info.username);
-        email.setText(info.email);*/
-
-        /*String sex = preferences.getString("gender", null);
-
-        Userinfo info = databaseHelper.getuserinfo(id);
-
-        if (info.image != null) {
-            gender.setImageBitmap(getBitmap(info.image));
-        } else if (sex.equals("Male")) {
-            gender.setImageResource(R.drawable.);
-        } else if (sex.equals("Female")) {
-            gender.setImageResource(R.drawable.);
-        }
-        //   }*/
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -186,19 +153,6 @@ public class Navigation_drawer extends AppCompatActivity
         }
     };
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        displayuser();
-//    }
-//
-//    public void displayuser()
-//    {
-//        Userinfo info = databaseHelper.getuserinfo(id);
-//        username.setText(info.username);
-//        email.setText(info.email);
-//    }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -208,27 +162,6 @@ public class Navigation_drawer extends AppCompatActivity
             super.onBackPressed();
         }
     }
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.navigation_drawer, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -240,7 +173,7 @@ public class Navigation_drawer extends AppCompatActivity
             startActivity(new Intent(Navigation_drawer.this,Lend_Borrow.class));
         }
         else if(id == R.id.budget){
-            startActivity(new Intent(Navigation_drawer.this,Budget.class));
+            startActivity(new Intent(Navigation_drawer.this, Budgets.class));
         }
         else if(id == R.id.reminder){
             showCustomdialog();
@@ -326,8 +259,6 @@ public class Navigation_drawer extends AppCompatActivity
 
     }
 
-    private static boolean reminderSet;
-
     public void showCustomdialog(){
         final Dialog dialog = new Dialog(this);
         dialog.setTitle("Set a Reminder");
@@ -340,25 +271,10 @@ public class Navigation_drawer extends AppCompatActivity
 
         timePicker.setIs24HourView(false); // used to display AM/PM mode
 
-        // perform set on time changed listener event
-//        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-//            @Override
-//            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-//                Calendar mcurrentTime = Calendar.getInstance();
-//                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-//                int minutes = mcurrentTime.get(Calendar.MINUTE);
-//
-//                // display a toast with changed values of time picker
-//                Toast.makeText(getApplicationContext(), "Reminder: " + hourOfDay + " : " + minute, Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
         ok.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-
-                reminderSet = true;
 
                 ContentValues contentValues = new ContentValues();
                 contentValues.put("hour", timePicker.getHour());
@@ -389,8 +305,8 @@ public class Navigation_drawer extends AppCompatActivity
         Calendar cal_now = Calendar.getInstance();
         cal_now.setTime(dat);
         cal_alarm.setTime(dat);
-        cal_alarm.set(Calendar.HOUR_OF_DAY,9);
-        cal_alarm.set(Calendar.MINUTE,55);
+        cal_alarm.set(Calendar.HOUR_OF_DAY,18);
+        cal_alarm.set(Calendar.MINUTE,30);
         if(cal_alarm.before(cal_now)){
             cal_alarm.add(Calendar.DATE,1);
         }
@@ -400,13 +316,5 @@ public class Navigation_drawer extends AppCompatActivity
 
         manager.setRepeating(AlarmManager.RTC_WAKEUP,cal_alarm.getTimeInMillis(),1000 * 60 * 60 * 24, pendingIntent);
     }
-
-
-    //    public void refreshlist(){
-//
-//        Records records = new Records();
-//        records.refresh();
-//
-//    }
 
 }

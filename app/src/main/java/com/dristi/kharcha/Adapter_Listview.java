@@ -153,11 +153,6 @@ public class Adapter_Listview extends ArrayAdapter<ExpenseInfo>{
             default:
                 break;
         }
-                /*preferences = context.getSharedPreferences("idinfo",0);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("id",info.id );*/
-
-
         return view;
     }
 }

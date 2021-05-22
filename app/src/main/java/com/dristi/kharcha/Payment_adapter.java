@@ -151,7 +151,7 @@ public class Payment_adapter extends ArrayAdapter<PaymentInfo> {
 
         final CheckBox payments = view.findViewById(R.id.payments);
 
-        payments.setVisibility(View.INVISIBLE);
+        payments.setVisibility(View.GONE);
 
         income_spinner.setAdapter(new Income_spinner(getContext(), getSpinner()));
         initlist();

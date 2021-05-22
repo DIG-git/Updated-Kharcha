@@ -1,6 +1,7 @@
 package com.dristi.kharcha;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -11,7 +12,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.widget.FrameLayout;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -41,6 +42,9 @@ public class Budget_info extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_budget_info);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         id = getIntent().getIntExtra("id",0);
 
@@ -189,6 +193,16 @@ public class Budget_info extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public class pagerAdapter extends FragmentPagerAdapter{
 
         public pagerAdapter(@NonNull FragmentManager fm) {
@@ -199,9 +213,9 @@ public class Budget_info extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
              if(position == 0){
-                 return new BudgetListFrag();
+                 return new BudgetListFragment();
              }
-             return new BudgetChartFrag();
+             return new BudgetChartFragment();
         }
 
         @Override

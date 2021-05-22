@@ -4,23 +4,14 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import androidx.fragment.app.Fragment;
-
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-
 import java.util.ArrayList;
 
 public class PieChartFragment extends Fragment {
@@ -107,7 +98,7 @@ public class PieChartFragment extends Fragment {
         pieChart.setEntryLabelColor(Color.parseColor("#FF808080"));
         pieChart.setEntryLabelTextSize(10);
 
-        if(databaseHelper.getChartTotal(fromd, tod) == 0){
+        if (databaseHelper.getChartTotal(fromd, tod) == 0){
             pieChart.setCenterText("No Records \n" + "From "+ fromd + "\n" + "To " + tod);
             pieChart.setCenterTextSize(13);
         }

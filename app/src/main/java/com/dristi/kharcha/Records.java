@@ -1,6 +1,5 @@
 package com.dristi.kharcha;
 
-import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -10,8 +9,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,13 +21,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-
 import static android.widget.Toast.*;
 import static android.widget.Toast.LENGTH_SHORT;
 
@@ -351,21 +344,6 @@ public class Records extends Fragment{
                         makeText(getActivity(),"Choose category", LENGTH_SHORT).show();
                     }
 
-                    //final String[] categoryval = new String[1];
-
-                /*spinnercatergories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Categories_item clickeditem = (Categories_item)parent.getItemAtPosition(position);
-                        String categoryval = clickeditem.getName();
-
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });*/
 
                     final String spinnerval = income_spinner.getSelectedItem().toString();
 
@@ -453,18 +431,18 @@ public class Records extends Fragment{
     private void initlist(){
 
         categorylist = new ArrayList<>();
-        categorylist.add(new Categories_item("Household",R.drawable.ic_household));
-        categorylist.add(new Categories_item("Eating-out",R.drawable.ic_eating_out));
-        categorylist.add(new Categories_item("Grocery",R.drawable.ic_grocery));
-        categorylist.add(new Categories_item("Personal",R.drawable.ic_personal));
-        categorylist.add(new Categories_item("Utilities",R.drawable.ic_utilities));
-        categorylist.add(new Categories_item("Medical",R.drawable.ic_medical));
-        categorylist.add(new Categories_item("Education",R.drawable.ic_education));
-        categorylist.add(new Categories_item("Entertainment",R.drawable.ic_entertainment));
-        categorylist.add(new Categories_item("Clothing",R.drawable.ic_clothing));
-        categorylist.add(new Categories_item("Transportation",R.drawable.ic_transportation));
-        categorylist.add(new Categories_item("Shopping",R.drawable.ic_shopping));
-        categorylist.add(new Categories_item("Others",R.drawable.savings));
+        categorylist.add(new Categories_item("Clothing", R.drawable.ic_clothing));
+        categorylist.add(new Categories_item("Eating-out", R.drawable.ic_eating_out));
+        categorylist.add(new Categories_item("Education", R.drawable.ic_education));
+        categorylist.add(new Categories_item("Entertainment", R.drawable.ic_entertainment));
+        categorylist.add(new Categories_item("Grocery", R.drawable.ic_grocery));
+        categorylist.add(new Categories_item("Household", R.drawable.ic_household));
+        categorylist.add(new Categories_item("Medical", R.drawable.ic_medical));
+        categorylist.add(new Categories_item("Personal", R.drawable.ic_personal));
+        categorylist.add(new Categories_item("Shopping", R.drawable.ic_shopping));
+        categorylist.add(new Categories_item("Transportation", R.drawable.ic_transportation));
+        categorylist.add(new Categories_item("Utilities", R.drawable.ic_utilities));
+        categorylist.add(new Categories_item("Others", R.drawable.savings));
 
     }
 

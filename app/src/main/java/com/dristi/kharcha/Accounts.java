@@ -1,13 +1,8 @@
 package com.dristi.kharcha;
 
-import android.app.AlarmManager;
 import android.app.Dialog;
-import android.app.PendingIntent;
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.icu.util.ICUUncheckedIOException;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,7 +27,6 @@ import com.github.clans.fab.FloatingActionMenu;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class Accounts extends Fragment {
 
@@ -135,26 +129,11 @@ public class Accounts extends Fragment {
         final Spinner spinnercategories = view.findViewById(R.id.categories);
         final CheckBox payments = view.findViewById(R.id.payments);
 
-        //id=getIntent().getIntExtra("id",0);
-
         income_spinner.setAdapter(new Income_spinner(getActivity(), getSpinner()));
 
         initlist();
         Adapter = new Categories_adapter(getActivity(), categorylist);
         spinnercategories.setAdapter(Adapter);
-//
-//        if(id!=0){
-//            ExpenseInfo info = databaseHelper.getexpenseinfo(id);
-//            amount.setText(String.valueOf(info.amount));
-//            description.setText(info.description);
-//            int spinnerPosition = ((ArrayAdapter<String>)income_spinner.getAdapter()).getPosition(info.cashcredit);
-//            income_spinner.setSelection(spinnerPosition);
-//
-//            spinnercategories.setSelection(findIndex(info.category));
-//
-//            add.setText("Update");
-//        }
-
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,37 +179,6 @@ public class Accounts extends Fragment {
 
                         dialog.dismiss();
                     }
-
-                    //final String[] categoryval = new String[1];
-
-                /*spinnercatergories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Categories_item clickeditem = (Categories_item)parent.getItemAtPosition(position);
-                        String categoryval = clickeditem.getName();
-
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });*/
-
-
-//                    if(id==0){
-//                        databaseHelper.insertexpense(contentValues);
-//
-//                        Intent intent = new Intent(Add_expense.this, Expense.class);
-//                        startActivity(intent);
-//                        finish();
-//                    }else{
-//                        databaseHelper.updateexpense(id,contentValues);
-//                        Toast.makeText(Add_expense.this,"Expense updated",Toast.LENGTH_SHORT).show();
-//                        finish();
-//                    }
-
-//                    ((Navigation_drawer)getActivity()).refreshlist();
                 }
 
                 if (databaseHelper.getrecentexpenselist().isEmpty()) {
@@ -305,15 +253,6 @@ public class Accounts extends Fragment {
                         databaseHelper.insertincome(contentValues);
 
                         dialog.dismiss();
-
-                        /*if(id==0){
-
-                            dialog.dismiss();
-                        }
-                        else {
-                            databaseHelper.updateincome(id,contentValues);
-                            dialog.dismiss();
-                        }*/
                     }
                 }
 
@@ -351,17 +290,17 @@ public class Accounts extends Fragment {
     private void initlist() {
 
         categorylist = new ArrayList<>();
-        categorylist.add(new Categories_item("Household", R.drawable.ic_household));
+        categorylist.add(new Categories_item("Clothing", R.drawable.ic_clothing));
         categorylist.add(new Categories_item("Eating-out", R.drawable.ic_eating_out));
-        categorylist.add(new Categories_item("Grocery", R.drawable.ic_grocery));
-        categorylist.add(new Categories_item("Personal", R.drawable.ic_personal));
-        categorylist.add(new Categories_item("Utilities", R.drawable.ic_utilities));
-        categorylist.add(new Categories_item("Medical", R.drawable.ic_medical));
         categorylist.add(new Categories_item("Education", R.drawable.ic_education));
         categorylist.add(new Categories_item("Entertainment", R.drawable.ic_entertainment));
-        categorylist.add(new Categories_item("Clothing", R.drawable.ic_clothing));
-        categorylist.add(new Categories_item("Transportation", R.drawable.ic_transportation));
+        categorylist.add(new Categories_item("Grocery", R.drawable.ic_grocery));
+        categorylist.add(new Categories_item("Household", R.drawable.ic_household));
+        categorylist.add(new Categories_item("Medical", R.drawable.ic_medical));
+        categorylist.add(new Categories_item("Personal", R.drawable.ic_personal));
         categorylist.add(new Categories_item("Shopping", R.drawable.ic_shopping));
+        categorylist.add(new Categories_item("Transportation", R.drawable.ic_transportation));
+        categorylist.add(new Categories_item("Utilities", R.drawable.ic_utilities));
         categorylist.add(new Categories_item("Others", R.drawable.savings));
 
     }

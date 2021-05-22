@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class BudgetChartFrag extends Fragment {
+public class BudgetChartFragment extends Fragment {
 
     DatabaseHelper databaseHelper;
 

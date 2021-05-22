@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
-import android.content.Intent;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -106,7 +104,7 @@ public class Lend_Borrow extends AppCompatActivity {
                 Id = item.getGroupId();
                 add_installment(Id);
                 break;
-//
+
             case 2:
                 Id = item.getGroupId();
                 update_lend_borrow(Id);
@@ -114,9 +112,6 @@ public class Lend_Borrow extends AppCompatActivity {
 
             case 3:
                 Id = item.getGroupId();
-
-                //databaseHelper.deletelb(id);
-                //expadapt();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
 

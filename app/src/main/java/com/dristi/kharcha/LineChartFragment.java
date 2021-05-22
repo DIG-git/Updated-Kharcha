@@ -75,11 +75,6 @@ public class LineChartFragment extends Fragment {
         from.setText(fromd);
         to.setText(tod);
 
-//        if(set == 0){
-//            setDate(preferences.getString("Date",""));
-//            set++;
-//        }
-
         Categories_item categoryval = (Categories_item) categories.getSelectedItem();
         categoryVal = categoryval.getName().toString();
 
@@ -229,18 +224,18 @@ public class LineChartFragment extends Fragment {
     private void initlist(){
 
         categorylist = new ArrayList<>();
-        categorylist.add(new Categories_item("Household",R.drawable.ic_household));
-        categorylist.add(new Categories_item("Eating-out",R.drawable.ic_eating_out));
-        categorylist.add(new Categories_item("Grocery",R.drawable.ic_grocery));
-        categorylist.add(new Categories_item("Personal",R.drawable.ic_personal));
-        categorylist.add(new Categories_item("Utilities",R.drawable.ic_utilities));
-        categorylist.add(new Categories_item("Medical",R.drawable.ic_medical));
-        categorylist.add(new Categories_item("Education",R.drawable.ic_education));
-        categorylist.add(new Categories_item("Entertainment",R.drawable.ic_entertainment));
-        categorylist.add(new Categories_item("Clothing",R.drawable.ic_clothing));
-        categorylist.add(new Categories_item("Transportation",R.drawable.ic_transportation));
-        categorylist.add(new Categories_item("Shopping",R.drawable.ic_shopping));
-        categorylist.add(new Categories_item("Others",R.drawable.savings));
+        categorylist.add(new Categories_item("Clothing", R.drawable.ic_clothing));
+        categorylist.add(new Categories_item("Eating-out", R.drawable.ic_eating_out));
+        categorylist.add(new Categories_item("Education", R.drawable.ic_education));
+        categorylist.add(new Categories_item("Entertainment", R.drawable.ic_entertainment));
+        categorylist.add(new Categories_item("Grocery", R.drawable.ic_grocery));
+        categorylist.add(new Categories_item("Household", R.drawable.ic_household));
+        categorylist.add(new Categories_item("Medical", R.drawable.ic_medical));
+        categorylist.add(new Categories_item("Personal", R.drawable.ic_personal));
+        categorylist.add(new Categories_item("Shopping", R.drawable.ic_shopping));
+        categorylist.add(new Categories_item("Transportation", R.drawable.ic_transportation));
+        categorylist.add(new Categories_item("Utilities", R.drawable.ic_utilities));
+        categorylist.add(new Categories_item("Others", R.drawable.savings));
 
     }
 

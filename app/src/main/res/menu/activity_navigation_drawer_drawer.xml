@@ -8,7 +8,7 @@
             <item
                 android:id="@+id/budget"
                 android:icon="@drawable/ic_business_center_black_24dp"
-                android:title="Budget"/>
+                android:title="Budgets"/>
             <item
                 android:id ="@+id/lendborrow"
                 android:icon ="@drawable/ic_compare_arrows_black_24dp"
@@ -27,17 +27,17 @@
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/about"
+                android:icon="@drawable/ic_about"
+                android:title="About" />
             <item
                 android:id="@+id/feedback"
                 android:icon="@drawable/ic_feedback"
                 android:title="Feedback" />
             <item
-                android:id="@+id/about"
-                android:icon="@drawable/ic_about"
-                android:title="About" />
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
         </menu>
     </item>
 

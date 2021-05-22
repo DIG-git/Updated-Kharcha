@@ -389,8 +389,8 @@ public class Navigation_drawer extends AppCompatActivity
         Calendar cal_now = Calendar.getInstance();
         cal_now.setTime(dat);
         cal_alarm.setTime(dat);
-        cal_alarm.set(Calendar.HOUR_OF_DAY,9);
-        cal_alarm.set(Calendar.MINUTE,55);
+        cal_alarm.set(Calendar.HOUR_OF_DAY,18);
+        cal_alarm.set(Calendar.MINUTE,30);
         if(cal_alarm.before(cal_now)){
             cal_alarm.add(Calendar.DATE,1);
         }

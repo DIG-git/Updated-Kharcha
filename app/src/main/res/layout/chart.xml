@@ -24,7 +24,8 @@
             android:textSize="18sp"
             android:textColor="@color/skyblue"
             android:textStyle="normal"
-            android:id="@+id/pie"/>
+            android:id="@+id/pie"
+            android:foreground="?attr/selectableItemBackground"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,7 +37,8 @@
             android:textSize="18sp"
             android:textColor="@color/skyblue"
             android:textStyle="normal"
-            android:id="@+id/line"/>
+            android:id="@+id/line"
+            android:foreground="?attr/selectableItemBackground"/>
 
     </LinearLayout>
 

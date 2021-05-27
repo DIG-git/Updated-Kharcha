@@ -48,6 +48,8 @@ public class Navigation_drawer extends AppCompatActivity
 
     MenuItem menuItem;
 
+    ReminderInfo info;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +59,7 @@ public class Navigation_drawer extends AppCompatActivity
 
         databaseHelper = new DatabaseHelper(this);
 
-        ReminderInfo info = new ReminderInfo();
+        info = new ReminderInfo();
         info = databaseHelper.getRecentReminder();
 
         if(info.equals(null)){
@@ -314,7 +316,7 @@ public class Navigation_drawer extends AppCompatActivity
         Intent myIntent = new Intent(Navigation_drawer.this, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(Navigation_drawer.this, 0, myIntent, 0);
 
-        manager.setRepeating(AlarmManager.RTC_WAKEUP,cal_alarm.getTimeInMillis(),1000 * 60 * 60 * 24, pendingIntent);
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, cal_alarm.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 
 }

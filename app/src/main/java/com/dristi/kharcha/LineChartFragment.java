@@ -108,7 +108,6 @@ public class LineChartFragment extends Fragment {
 
         while(tod.compareTo(getDate()) > 0){
             dataSet.add(new Entry(count, databaseHelper.getlinecategorytotal(category, getDate())));
-            System.out.println(count);
             setDate(getnewdate(getDate()));
             count++;
         }

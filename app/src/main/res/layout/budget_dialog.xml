@@ -31,6 +31,7 @@
                     android:hint="From"
                     android:textSize="18sp"
                     android:layout_weight="1"
+                    android:maxLines="1"
                     android:layout_margin="5dp"
                     android:id="@+id/fromdate"/>
 
@@ -40,6 +41,7 @@
                     android:hint="To"
                     android:textSize="18sp"
                     android:layout_weight="1"
+                    android:maxLines="1"
                     android:layout_margin="5dp"
                     android:id="@+id/todate"/>
 

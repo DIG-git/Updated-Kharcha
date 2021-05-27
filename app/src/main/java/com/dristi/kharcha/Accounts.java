@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -369,7 +370,6 @@ public class Accounts extends Fragment {
 
         final Spinner spinner = view.findViewById(R.id.income_spinner);
 
-
         amount.setVisibility(View.GONE);
         description.setVisibility(View.GONE);
 
@@ -377,6 +377,9 @@ public class Accounts extends Fragment {
         add.setText("OK");
 
         spinner.setAdapter(new Income_spinner(getActivity(), getCurrencylist()));
+
+        int spinnerPosition = ((ArrayAdapter<String>)spinner.getAdapter()).getPosition(preferences.getString("currency", "Rs."));
+        spinner.setSelection(spinnerPosition);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override

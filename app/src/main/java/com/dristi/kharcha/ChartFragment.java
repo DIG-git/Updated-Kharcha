@@ -56,6 +56,8 @@ public class ChartFragment extends Fragment {
         dbhelper = new DatabaseHelper(getActivity());
 
         pie.setBackgroundResource(R.drawable.layerlist_records);
+        PieChartFragment pieChartFragment = new PieChartFragment();
+        getChildFragmentManager().beginTransaction().replace(R.id.frame,pieChartFragment).commit();
 
         preferences = getActivity().getSharedPreferences("ChartDate", 0);
 

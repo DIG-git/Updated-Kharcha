@@ -309,6 +309,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return total;
     }
 
+    public int getexpensetotal(String fromd, String tod){
+
+        String sql = "Select * from expense where date >= date('" + fromd + "') AND date < date('" + tod + "')";
+        Cursor c = getReadableDatabase().rawQuery(sql,null);
+        int sum = 0,total = 0;
+        while (c.moveToNext()){
+            sum = c.getInt(c.getColumnIndex("amount"));
+            total = total + sum;
+        }
+        c.close();
+        return total;
+    }
+
     public int getChartTotal(String fromd, String tod){
 
         String sql = "Select * from expense where date >= date('" + fromd + "') AND date < date('" + tod + "')";

@@ -10,9 +10,9 @@ import android.webkit.WebView;
 
 public class About extends AppCompatActivity {
 
-    WebView about;
+    private WebView about;
 
-    String text;
+    private String text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

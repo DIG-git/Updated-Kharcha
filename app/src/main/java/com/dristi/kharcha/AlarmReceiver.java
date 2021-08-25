@@ -35,7 +35,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         .setSmallIcon(R.drawable.ic_info)
                         .setColor(Color.RED)
                         .setContentTitle("Have you added your records?")
-                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_kharcha_round))
+                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_kharcha))
                         .setContentText("Track your expenses to manage your income")
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)

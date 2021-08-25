@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -38,17 +39,17 @@ import java.util.Map;
 public class Navigation_drawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    TimePicker timePicker;
+    private TimePicker timePicker;
 
-    ViewPager viewPager;
+    private ViewPager viewPager;
 
-    TextView ok,cancel;
+    private TextView ok,cancel;
 
-    DatabaseHelper databaseHelper;
+    private SharedPreferences preferences, execute;
 
-    MenuItem menuItem;
+    private DatabaseHelper databaseHelper;
 
-    ReminderInfo info;
+    private MenuItem menuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +58,12 @@ public class Navigation_drawer extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        preferences = this.getSharedPreferences("Reminder", 0);
+        execute = this.getSharedPreferences("Execute", 0);
+
         databaseHelper = new DatabaseHelper(this);
 
-        info = new ReminderInfo();
-        info = databaseHelper.getRecentReminder();
-
-        if(info.equals(null)){
+        if(preferences.getInt("hour", 30) == 30){
             alarmManager();
         }else{
             AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -71,8 +72,8 @@ public class Navigation_drawer extends AppCompatActivity
             Calendar cal_now = Calendar.getInstance();
             cal_now.setTime(dat);
             cal_alarm.setTime(dat);
-            cal_alarm.set(Calendar.HOUR_OF_DAY,info.hour);
-            cal_alarm.set(Calendar.MINUTE,info.minute);
+            cal_alarm.set(Calendar.HOUR_OF_DAY,preferences.getInt("hour", 0));
+            cal_alarm.set(Calendar.MINUTE,preferences.getInt("minute", 0));
             if(cal_alarm.before(cal_now)){
                 cal_alarm.add(Calendar.DATE,1);
             }
@@ -172,7 +173,9 @@ public class Navigation_drawer extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.lendborrow){
-            startActivity(new Intent(Navigation_drawer.this,Lend_Borrow.class));
+            Intent intent = new Intent(Navigation_drawer.this, Lend_Borrow.class);
+            intent.putExtra("id", 0);
+            startActivity(intent);
         }
         else if(id == R.id.budget){
             startActivity(new Intent(Navigation_drawer.this, Budgets.class));
@@ -277,12 +280,8 @@ public class Navigation_drawer extends AppCompatActivity
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-
-                ContentValues contentValues = new ContentValues();
-                contentValues.put("hour", timePicker.getHour());
-                contentValues.put("minute", timePicker.getMinute());
-
-                databaseHelper.insertReminder(contentValues);
+                preferences.edit().putInt("hour", timePicker.getHour()).apply();
+                preferences.edit().putInt("minute", timePicker.getMinute()).apply();
 
                 dialog.dismiss();
             }

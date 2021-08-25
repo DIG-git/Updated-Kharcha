@@ -20,17 +20,17 @@ import java.util.ArrayList;
 
 public class PieChartFragment extends Fragment {
 
-    DatabaseHelper databaseHelper;
+    private DatabaseHelper databaseHelper;
 
-    SharedPreferences preferences;
+    private SharedPreferences preferences;
 
-    String fromd, tod;
+    private String fromd, tod;
 
-    PieChart pieChart;
+    private PieChart pieChart;
 
-    PieData data;
+    private PieData data;
 
-    PieDataSet dataSet;
+    private PieDataSet dataSet;
 
     @Nullable
     @Override

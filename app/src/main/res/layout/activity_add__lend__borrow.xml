@@ -30,7 +30,7 @@
         android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint=" To/From"
+        android:hint=" Description"
         android:textSize="18sp"
         android:layout_marginTop="5dp"
         android:layout_marginHorizontal="10dp"
@@ -48,11 +48,20 @@
         android:layout_marginHorizontal="10dp"
         android:padding="15dp"/>
 
+    <CheckBox
+        android:id="@+id/balance_change"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No Change in Balance"
+        android:textSize="16sp"
+        android:layout_marginHorizontal="10dp"
+        android:padding="10dp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="20dp">
+        android:paddingBottom="10dp">
 
         <Button
             android:id="@+id/cancel"

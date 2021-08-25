@@ -9,6 +9,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,27 +24,37 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
 import static android.widget.Toast.*;
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class Records extends Fragment{
 
-    CalendarView calendarView;
+    private CalendarView calendarView;
 
-    TextView income, expense, norecord;
+    private TextView income, expense, norecord;
 
-    DatabaseHelper dbhelper;
+    private DatabaseHelper dbhelper;
 
-    String day, date, mon, incexp, datevalue;
+    private String day, date, mon, incexp, datevalue;
 
     private ArrayList<Categories_item> categorylist;
 
     private Categories_adapter Adapter;
 
-    ListView listView;
+    private RecyclerView recyclerView;
+
+//    AppBarLayout appBarLayout;
+//
+//    CollapsingToolbarLayout collapsingToolbarLayout;
 
     @Nullable
     @Override
@@ -55,9 +68,34 @@ public class Records extends Fragment{
 
         calendarView = view.findViewById(R.id.calendar);
 
-        listView = view.findViewById(R.id.list);
+//        appBarLayout = view.findViewById(R.id.appbar);
+//
+//        collapsingToolbarLayout = view.findViewById(R.id.collapse_toolbar);
+//
+//        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+//            boolean isShow = false;
+//            int scrollRange = -1;
+//
+//            @Override
+//            public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
+//                if(scrollRange == -1){
+//                    scrollRange = appBarLayout.getTotalScrollRange();
+//                }
+//                if(scrollRange + i == 0){
+//                    collapsingToolbarLayout.setTitle("Kharcha");
+//                    isShow = false;
+//                }
+//                else{
+//                    collapsingToolbarLayout.setTitle("Kharcha");
+//                    isShow = true;
+//                }
+//            }
+//        });
 
         dbhelper = new DatabaseHelper(getActivity());
+
+        recyclerView = view.findViewById(R.id.recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         incexp = "Expense";
 
@@ -151,7 +189,8 @@ public class Records extends Fragment{
         else{
             norecord.setVisibility(View.INVISIBLE);
         }
-        listView.setAdapter(new Expense_adapter(getActivity(),dbhelper.getexpenseinfo(value)));
+
+        recyclerView.setAdapter(new Expense_recycleviewAdapter(getActivity(), dbhelper.getexpenseinfo(value)));
     }
 
     public void displayincome (String value){
@@ -162,7 +201,8 @@ public class Records extends Fragment{
         else{
             norecord.setVisibility(View.INVISIBLE);
         }
-        listView.setAdapter(new Income_adapter(getActivity(),dbhelper.getincomeinfo(value)));
+
+        recyclerView.setAdapter(new Income_recycleviewAdapter(getActivity(), dbhelper.getincomeinfo(value)));
     }
 
     private int id;
@@ -311,7 +351,7 @@ public class Records extends Fragment{
         final Spinner spinnercategories = view.findViewById(R.id.categories);
         final CheckBox payments = view.findViewById(R.id.payments);
 
-        payments.setVisibility(View.INVISIBLE);
+        payments.setVisibility(View.GONE);
 
         //id=getIntent().getIntExtra("id",0);
 
@@ -320,6 +360,7 @@ public class Records extends Fragment{
 
         Adapter = new Categories_adapter(getActivity(),categorylist);
         spinnercategories.setAdapter(Adapter);
+        spinnercategories.setPadding(5,0,0,0);
 
         ExpenseInfo info = dbhelper.getexpenseinfo(Id);
         amount.setText(String.valueOf(info.amount));

@@ -8,5 +8,6 @@ public class ExpenseInfo {
     public int id;
     public int amount;
     public String cashcredit;
+    public String deduct;
     //public int amount;
 }

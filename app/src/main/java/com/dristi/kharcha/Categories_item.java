@@ -1,7 +1,9 @@
 package com.dristi.kharcha;
 
 public class Categories_item {
+
     private String name;
+
     private int image;
 
     public Categories_item(String cname, int cimage){

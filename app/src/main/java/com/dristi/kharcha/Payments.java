@@ -29,13 +29,13 @@ import static android.widget.Toast.makeText;
 
 public class Payments extends AppCompatActivity {
 
-    ListView listView;
+    private ListView listView;
 
-    Payment_adapter adapter;
+    private Payment_adapter adapter;
 
-    DatabaseHelper databaseHelper;
+    private DatabaseHelper databaseHelper;
 
-    FloatingActionButton floatingActionButton;
+    private FloatingActionButton floatingActionButton;
 
     private ArrayList<Categories_item> categorylist;
 

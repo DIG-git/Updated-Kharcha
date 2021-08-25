@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundblue"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +24,7 @@
             <CalendarView
                 android:id="@+id/calendar"
                 android:layout_width="match_parent"
-                android:layout_height="325dp"
+                android:layout_height="335dp"
                 android:layout_gravity="center">
 
             </CalendarView>
@@ -40,12 +42,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
-                    android:padding="3dp">
+                    android:padding="2dp">
 
                     <TextView
                         android:id="@+id/expense"
@@ -75,19 +78,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <ListView
-                        android:id="@+id/list"
+                    <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="450dp"
-                        android:divider="@null"
-                        android:dividerHeight="0dp">
+                        android:layout_height="wrap_content"
+                        android:id="@+id/recycler"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-                    </ListView>
+                    </androidx.recyclerview.widget.RecyclerView>
 
                     <TextView
                         android:id="@+id/norecord"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
                         android:layout_centerInParent="true"
                         android:text="No Records"
                         android:textColor="#9000"
@@ -102,4 +105,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

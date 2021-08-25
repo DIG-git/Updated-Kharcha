@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import android.graphics.Color;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +23,9 @@ import java.util.ArrayList;
 
 public class Adapter_Listview extends ArrayAdapter<ExpenseInfo>{
 
-    Context context;
-    DatabaseHelper databaseHelper;
+    private Context context;
+
+    private DatabaseHelper databaseHelper;
 
     public Adapter_Listview(@NonNull Context context, ArrayList<ExpenseInfo> list) {
         super(context, 0, list);
@@ -54,6 +57,13 @@ public class Adapter_Listview extends ArrayAdapter<ExpenseInfo>{
         currency.setText(preferences.getString("currency","Rs.") + " ");
         amount.setText(String.valueOf(info.amount));
 
+        if(info.category.equals("Lend")){
+            imageView.setColorFilter(Color.RED);
+        }
+        else{
+            imageView.setColorFilter(Color.GREEN);
+        }
+
         final int id = info.id;
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -71,7 +81,7 @@ public class Adapter_Listview extends ArrayAdapter<ExpenseInfo>{
                         databaseHelper.deletelb(info.id);
 
                         Intent intent = new Intent(context, Lend_Borrow.class);
-                        intent.putExtra("id", 1);
+                        intent.putExtra("fin", 'y');
                         context.startActivity(intent);
 
                     }
@@ -105,53 +115,6 @@ public class Adapter_Listview extends ArrayAdapter<ExpenseInfo>{
         }
         else{
             description.setText(info.description);
-        }
-
-        switch (info.category){
-            case "Household":
-                imageView.setImageResource(R.drawable.ic_household);
-                break;
-            case "Eating-out":
-                imageView.setImageResource(R.drawable.ic_eating_out);
-                break;
-            case "Grocery":
-                imageView.setImageResource(R.drawable.ic_grocery);
-                break;
-            case "Personal":
-                imageView.setImageResource(R.drawable.ic_personal);
-                break;
-            case "Utilities":
-                imageView.setImageResource(R.drawable.ic_utilities);
-                break;
-            case "Medical":
-                imageView.setImageResource(R.drawable.ic_medical);
-                break;
-            case "Education":
-                imageView.setImageResource(R.drawable.ic_education);
-                break;
-            case "Entertainment":
-                imageView.setImageResource(R.drawable.ic_entertainment);
-                break;
-            case "Clothing":
-                imageView.setImageResource(R.drawable.ic_clothing);
-                break;
-            case "Transportation":
-                imageView.setImageResource(R.drawable.ic_transportation);
-                break;
-            case "Shopping":
-                imageView.setImageResource(R.drawable.ic_shopping);
-                break;
-            case "Others":
-                imageView.setImageResource(R.drawable.savings);
-                break;
-            case "Lend":
-                imageView.setImageResource(R.drawable.ic_utilities);
-                break;
-            case "Borrow":
-                imageView.setImageResource(R.drawable.ic_household);
-                break;
-            default:
-                break;
         }
         return view;
     }

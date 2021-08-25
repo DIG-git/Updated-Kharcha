@@ -23,9 +23,9 @@ import java.util.Calendar;
 
 public class Budgetadapter extends ArrayAdapter<BudgetInfo> {
 
-    Context context;
+    private Context context;
 
-    DatabaseHelper databaseHelper;
+    private DatabaseHelper databaseHelper;
 
     public Budgetadapter(@NonNull Context context, ArrayList<BudgetInfo> list) {
         super(context, 0, list);

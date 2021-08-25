@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -31,23 +32,23 @@ import java.util.Calendar;
 
 public class Accounts extends Fragment {
 
-    FloatingActionMenu menu;
+    private FloatingActionMenu menu;
 
-    FloatingActionButton b1, b2;
+    private FloatingActionButton b1, b2;
 
     private ArrayList<Categories_item> categorylist;
 
-    ArrayList<String> currencylist;
+    private ArrayList<String> currencylist;
 
     private Categories_adapter Adapter;
 
-    TextView credit, cash, balance, norecord;
+    private TextView credit, cash, balance, norecord;
 
-    DatabaseHelper databaseHelper, dbhelper, dbHelper;
+    private DatabaseHelper databaseHelper, dbhelper, dbHelper;
 
-    ListView listView;
+    private ListView listView;
 
-    SharedPreferences preferences, execute;
+    private SharedPreferences preferences;
 
     @Nullable
     @Override
@@ -64,7 +65,6 @@ public class Accounts extends Fragment {
 
         listView = view.findViewById(R.id.recent);
 
-        execute = getActivity().getSharedPreferences("Execute1", 0);
         preferences = getActivity().getSharedPreferences("Currency", 0);
 
         cash.setText(String.valueOf(databaseHelper.getcashtotal()));
@@ -135,6 +135,7 @@ public class Accounts extends Fragment {
         initlist();
         Adapter = new Categories_adapter(getActivity(), categorylist);
         spinnercategories.setAdapter(Adapter);
+        spinnercategories.setPadding(5,0,0,0);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override

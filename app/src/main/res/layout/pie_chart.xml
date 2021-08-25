@@ -8,28 +8,25 @@
     android:background="@color/backgroundblue"
     android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="2.5">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="5dp"
-                app:cardCornerRadius="3dp">
+                app:cardCornerRadius="3dp"
+                android:layout_weight="1">
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/piechart"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_margin="1dp">
+                    android:layout_height="match_parent"
+                    android:layout_margin="2dp">
 
                 </com.github.mikephil.charting.charts.PieChart>
 
@@ -37,11 +34,12 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="4dp"
                 app:cardCornerRadius="3dp"
-                android:layout_marginBottom="2dp">
+                android:layout_marginBottom="2dp"
+                android:layout_weight="1.5">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -50,20 +48,23 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:weightSum="6">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:layout_weight="1">
 
                             <View
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:background="#FFAADEE3">
+                                android:background="#FFAADEE3"
+                                android:layout_gravity="center_vertical">
 
                             </View>
 
@@ -80,12 +81,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:layout_weight="1">
 
                             <View
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:background="#FFF0B33A">
+                                android:background="#FFF0B33A"
+                                android:layout_gravity="center_vertical">
 
                             </View>
 
@@ -102,12 +105,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:layout_weight="1">
 
                             <View
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:background="#FFAEACAC">
+                                android:background="#FFAEACAC"
+                                android:layout_gravity="center_vertical">
 
                             </View>
 
@@ -124,12 +129,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:layout_weight="1">
 
                             <View
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:background="#FFA260CE">
+                                android:background="#FFA260CE"
+                                android:layout_gravity="center_vertical">
 
                             </View>
 
@@ -146,12 +153,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:layout_weight="1">
 
                             <View
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:background="#E682AE">
+                                android:background="#E682AE"
+                                android:layout_gravity="center_vertical">
 
                             </View>
 
@@ -168,12 +177,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:layout_weight="1">
 
                             <View
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:background="@color/colorAccent">
+                                android:background="@color/colorAccent"
+                                android:layout_gravity="center_vertical">
 
                             </View>
 
@@ -190,20 +201,23 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_margin="10dp"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:weightSum="6">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:layout_weight="1">
 
                             <View
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:background="#FFF86473">
+                                android:background="#FFF86473"
+                                android:layout_gravity="center_vertical">
 
                             </View>
 
@@ -220,12 +234,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:layout_weight="1">
 
                             <View
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:background="#FF45B4E3">
+                                android:background="#FF45B4E3"
+                                android:layout_gravity="center_vertical">
 
                             </View>
 
@@ -242,12 +258,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:layout_weight="1">
 
                             <View
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:background="#FFCB4B3D">
+                                android:background="#FFCB4B3D"
+                                android:layout_gravity="center_vertical">
 
                             </View>
 
@@ -264,12 +282,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:layout_weight="1">
 
                             <View
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:background="#558B2F">
+                                android:background="#558B2F"
+                                android:layout_gravity="center_vertical">
 
                             </View>
 
@@ -286,12 +306,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:layout_weight="1">
 
                             <View
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:background="#FFF2E446">
+                                android:background="#FFF2E446"
+                                android:layout_gravity="center_vertical">
 
                             </View>
 
@@ -308,12 +330,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:layout_weight="1">
 
                             <View
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:background="#FF37D244">
+                                android:background="#FF37D244"
+                                android:layout_gravity="center_vertical">
 
                             </View>
 
@@ -334,7 +358,5 @@
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
-
-    </ScrollView>
 
 </LinearLayout>

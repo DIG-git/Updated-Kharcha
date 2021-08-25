@@ -13,15 +13,15 @@ import androidx.fragment.app.Fragment;
 
 public class BudgetListFragment extends Fragment {
 
-    DatabaseHelper databaseHelper;
+    private DatabaseHelper databaseHelper;
 
-    ListView listView;
+    private ListView listView;
 
-    SharedPreferences preferences;
+    private SharedPreferences preferences;
 
-    TextView norecord;
+    private TextView norecord;
 
-    int id;
+    private int id;
 
     @Nullable
     @Override

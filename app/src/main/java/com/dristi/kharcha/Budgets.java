@@ -19,18 +19,19 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class Budgets extends AppCompatActivity {
 
-    ListView listView;
+    private ListView listView;
 
-    FloatingActionButton floatingActionButton;
+    private FloatingActionButton floatingActionButton;
 
-    DatabaseHelper databaseHelper;
+    private DatabaseHelper databaseHelper;
 
-    String day, mon, datevalue;
+    private String day, mon, datevalue;
 
     private ArrayList<Categories_item> categorylist;
 
@@ -117,6 +118,7 @@ public class Budgets extends AppCompatActivity {
         initlist();
         Adapter = new Categories_adapter(Budgets.this, categorylist);
         spinner.setAdapter(Adapter);
+        spinner.setPadding(5,0,0,0);
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -209,29 +211,34 @@ public class Budgets extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(isAmountEmpty(amount)) {
+                String fromd = fromdate.getText().toString();
+                String tod = todate.getText().toString();
 
-                    Categories_item categoryval = (Categories_item) spinner.getSelectedItem();
-                    String categoryVal = categoryval.getName().toString();
-
-                    String a = amount.getText().toString();
-                    int amountVal = Integer.parseInt(a);
-
-                    String fromd = fromdate.getText().toString();
-                    String tod = todate.getText().toString();
-
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put("fromdate", fromd);
-                    contentValues.put("amount", amountVal);
-                    contentValues.put("todate", tod);
-                    contentValues.put("category", categoryVal);
-
-                    databaseHelper.insertBudget(contentValues);
+                if(fromd.compareTo(tod) == 1){
+                    Toast.makeText(Budgets.this, "From is greater than To", Toast.LENGTH_SHORT).show();
                 }
+                else{
+                    if(isAmountEmpty(amount)) {
+
+                        Categories_item categoryval = (Categories_item) spinner.getSelectedItem();
+                        String categoryVal = categoryval.getName().toString();
+
+                        String a = amount.getText().toString();
+                        int amountVal = Integer.parseInt(a);
+
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put("fromdate", fromd);
+                        contentValues.put("amount", amountVal);
+                        contentValues.put("todate", tod);
+                        contentValues.put("category", categoryVal);
+
+                        databaseHelper.insertBudget(contentValues);
+                    }
 
                     listView.setAdapter(new Budgetadapter(Budgets.this, databaseHelper.getbudgetlist()));
 
                     dialog.dismiss();
+                }
             }
         });
 

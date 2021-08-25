@@ -22,21 +22,21 @@ import java.util.Calendar;
 
 public class Budget_info extends AppCompatActivity {
 
-    TextView category, currency, amount, left, status, date, currencyb, amountb;
+    private TextView category, currency, amount, left, status, date, currencyb, amountb;
 
-    ImageView imageView;
+    private ImageView imageView;
 
-    ProgressBar progressBar;
+    private ProgressBar progressBar;
 
-    DatabaseHelper dbhelper;
+    private DatabaseHelper dbhelper;
 
-    SharedPreferences preferences, detail_id;
+    private SharedPreferences preferences, detail_id;
 
-    TextView list, chart;
+    private TextView list, chart;
 
-    ViewPager pager;
+    private ViewPager pager;
 
-    int id;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -34,15 +34,15 @@ import static android.widget.Toast.LENGTH_SHORT;
 
 public class ChartFragment extends Fragment {
 
-    TextView pie, line;
+    private TextView pie, line;
 
-    String mon, day, datevalue, fromd, tod;
+    private String mon, day, datevalue, fromd, tod;
 
-    DatabaseHelper dbhelper;
+    private DatabaseHelper dbhelper;
 
-    SharedPreferences preferences, execute;
+    private SharedPreferences preferences, execute;
 
-    int i = 0;
+    private int i = 0;
 
     @Nullable
     @Override

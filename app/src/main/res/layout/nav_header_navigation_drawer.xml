@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="@drawable/side_nav_bar"
+    android:background="@color/colorPrimary"
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -20,7 +20,7 @@
         android:layout_gravity="center"
         android:contentDescription="@string/nav_header_desc"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@mipmap/ic_kharcha_round" />
+        app:srcCompat="@mipmap/ic_kharcha" />
 
     <TextView
         android:layout_width="wrap_content"

@@ -15,11 +15,13 @@
         android:textAlignment="center"
         android:textColor="@color/skyblue"
         android:textStyle="normal"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#a3a2a2">
     </View>
+
     <Spinner
         android:id="@+id/categories"
         android:layout_width="match_parent"
@@ -68,18 +70,18 @@
         android:id="@+id/payments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save as Payment"
+        android:text="Save as Scheduled Payment"
         android:textSize="16sp"
         android:layout_marginHorizontal="10dp"
-        android:padding="15dp"/>
+        android:padding="10dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:layout_marginHorizontal="5dp"
-        android:paddingBottom="20dp">
+        android:paddingBottom="10dp">
 
         <Button
             android:id="@+id/cancel"

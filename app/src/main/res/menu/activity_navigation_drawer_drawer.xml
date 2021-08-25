@@ -16,7 +16,7 @@
             <item
                 android:id="@+id/payments"
                 android:icon="@drawable/ic_payments"
-                android:title="Payments"/>
+                android:title="Scheduled Payments"/>
             <item
                 android:id="@+id/reminder"
                 android:icon="@drawable/ic_reminder"

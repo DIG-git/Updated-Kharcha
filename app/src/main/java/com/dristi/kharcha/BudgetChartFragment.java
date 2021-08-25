@@ -25,15 +25,15 @@ import java.util.Calendar;
 
 public class BudgetChartFragment extends Fragment {
 
-    DatabaseHelper databaseHelper;
+    private DatabaseHelper databaseHelper;
 
-    LineChart linechart;
+    private LineChart linechart;
 
-    String date;
+    private String date;
 
-    SharedPreferences preferences;
+    private SharedPreferences preferences;
 
-    int id;
+    private int id;
 
     @Nullable
     @Override

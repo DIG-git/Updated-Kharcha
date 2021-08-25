@@ -28,25 +28,25 @@ import java.util.Calendar;
 
 public class LineChartFragment extends Fragment {
 
-    LineChart linechart;
+    private LineChart linechart;
 
-    String date;
+    private String date;
 
-    DatabaseHelper databaseHelper;
+    private DatabaseHelper databaseHelper;
 
     private ArrayList<Categories_item> categorylist;
 
     private Categories_adapter Adapter;
 
-    SharedPreferences preferences;
+    private SharedPreferences preferences;
 
-    String fromd, tod, categoryVal;
+    private String fromd, tod, categoryVal;
 
-    Spinner categories;
+    private Spinner categories;
 
-    ImageView cat_icon;
+    private ImageView cat_icon;
 
-    TextView cat_text, from ,to;
+    private TextView cat_text, from ,to;
 
     @Nullable
     @Override
@@ -68,6 +68,7 @@ public class LineChartFragment extends Fragment {
         initlist();
         Adapter = new Categories_adapter(getActivity(),categorylist);
         categories.setAdapter(Adapter);
+        categories.setPadding(5,0,0,0);
 
         fromd = preferences.getString("fromd"," ");
         tod = preferences.getString("tod"," ");

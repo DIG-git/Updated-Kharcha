@@ -68,6 +68,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "\t`todate`\tTEXT\n" +
             ")";
 
+    private static final String sqlCreateInstallmentTable = "CREATE TABLE if not exists `installment` (\n" +
+            "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+            "\t`inst_id`\tINTEGER,\n" +
+            "\t`date`\tTEXT,\n" +
+            "\t`amount`\tINTEGER,\n" +
+            "FOREIGN KEY (inst_id) REFERENCES lb (id)" +
+            ")";
+
     private static final String sqlCreatePaymentsTable = "CREATE TABLE if not exists `payments` (\n" +
             "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
             "\t`amount`\tINTEGER,\n" +
@@ -92,6 +100,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         getWritableDatabase().execSQL(sqlCreatePaymentsTable);
 
         getWritableDatabase().execSQL(sqlCreateAccountTable);
+
+        getWritableDatabase().execSQL(sqlCreateInstallmentTable);
     }
 
 //    public void insertUser (ContentValues contentValues)
@@ -139,19 +149,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        return l;
 //    }
 
-    public void insertexpense (ContentValues contentValues)
+    public void insertExpense(ContentValues contentValues)
     {
         getWritableDatabase().insert("expense","",contentValues);
     }
 
-    public void deleteexpense (int id){
-
+    public void deleteExpense(int id){
         getWritableDatabase().delete("expense","id =" +id,null);
-
     }
 
-    public void updateexpense(Integer id,ContentValues contentValues){
+    public void updateExpense(Integer id, ContentValues contentValues){
         getWritableDatabase().update("expense",contentValues,"id="+id,null);
+    }
+
+    public void insertInstallment (ContentValues contentValues)
+    {
+        getWritableDatabase().insert("installment","",contentValues);
+    }
+
+    public void updateInstallment(Integer id,ContentValues contentValues){
+        getWritableDatabase().update("installment",contentValues,"id="+id,null);
+    }
+
+    public ArrayList<BudgetInfo> getInstallmentList(int id){
+        String sql= "Select * from installment where inst_id="+id;
+        Cursor c = getReadableDatabase().rawQuery(sql,null);
+        ArrayList<BudgetInfo> list = new ArrayList<>();
+        BudgetInfo info= new BudgetInfo();
+        while(c.moveToNext())
+        {
+            info.fromdate = c.getString(c.getColumnIndex("date"));
+            info.amount = c.getInt(c.getColumnIndex("amount"));
+            list.add(info);
+        }
+        c.close();
+        return list;
     }
 
     public ExpenseInfo getexpenseinfo(int id){
@@ -380,13 +412,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deletelb (int id){
         getWritableDatabase().delete("lb","id =" +id,null);
-
+        getWritableDatabase().delete("installment","inst_id =" +id,null);
     }
 
     public void deletelbacc (int id){
         getWritableDatabase().delete("account","id =" +id,null);
         getWritableDatabase().delete("lb","ac_id =" +id,null);
-
     }
 
     public void updatelb(Integer id,ContentValues contentValues){
@@ -405,6 +436,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return l;
 
     }
+
+    public long getincometot(String date){
+        String sql = "Select SUM (amount) as Total from income where date = " + date;
+        SQLiteStatement statement=getReadableDatabase().compileStatement(sql);
+        long l = statement.simpleQueryForLong();
+        statement.close();
+        return l;
+    }
+
+    public long getexpensetot(String date){
+        String sql = "Select SUM (amount) as Total from expense where date = " + date;
+        SQLiteStatement statement=getReadableDatabase().compileStatement(sql);
+        long l = statement.simpleQueryForLong();
+        statement.close();
+        return l;
+    }
+
     public long getborrowbalance(){
         String sql = "Select SUM (amount) as Total from lb where category='Borrow'";
         SQLiteStatement statement = getReadableDatabase().compileStatement(sql);

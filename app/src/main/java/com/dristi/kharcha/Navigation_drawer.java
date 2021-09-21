@@ -200,7 +200,7 @@ public class Navigation_drawer extends AppCompatActivity
         }
         else if (id == R.id.feedback){
             Intent intent=new Intent(Intent.ACTION_SEND);
-            String[] recipients={"amatyaichhya@gmail.com"};
+            String[] recipients={"amatyaichhya@gmail.com", "dugar.d1998@gmail.com"};
             intent.putExtra(Intent.EXTRA_EMAIL, recipients);
             intent.putExtra(Intent.EXTRA_SUBJECT,"Feedback");
             intent.putExtra(Intent.EXTRA_TEXT,"");

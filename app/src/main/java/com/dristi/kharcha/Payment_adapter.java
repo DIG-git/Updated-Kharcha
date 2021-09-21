@@ -197,7 +197,7 @@ public class Payment_adapter extends ArrayAdapter<PaymentInfo> {
                         contentValues.put("category", categoryVal);
                         contentValues.put("cashcredit", spinnerval);
 
-                        databaseHelper.insertexpense(contentValues);
+                        databaseHelper.insertExpense(contentValues);
 
                     }
 

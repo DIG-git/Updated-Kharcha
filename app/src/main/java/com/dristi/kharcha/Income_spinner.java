@@ -22,7 +22,6 @@ public class Income_spinner extends ArrayAdapter {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
         String spinnerlist = (String) getItem(position);
 
         TextView textView = new TextView(context);

@@ -72,9 +72,7 @@ public class Budgets extends AppCompatActivity {
     }
     
     private void initlist(){
-
         categorylist = new ArrayList<>();
-
         categorylist.add(new Categories_item("Clothing", R.drawable.ic_clothing));
         categorylist.add(new Categories_item("Eating-out", R.drawable.ic_eating_out));
         categorylist.add(new Categories_item("Education", R.drawable.ic_education));
@@ -87,7 +85,6 @@ public class Budgets extends AppCompatActivity {
         categorylist.add(new Categories_item("Transportation", R.drawable.ic_transportation));
         categorylist.add(new Categories_item("Utilities", R.drawable.ic_utilities));
         categorylist.add(new Categories_item("Others", R.drawable.savings));
-
     }
 
     public boolean isAmountEmpty(EditText view) {
@@ -374,29 +371,34 @@ public class Budgets extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(isAmountEmpty(amount)) {
+                String fromd = fromdate.getText().toString();
+                String tod = todate.getText().toString();
 
-                    Categories_item categoryval = (Categories_item) spinner.getSelectedItem();
-                    String categoryVal = categoryval.getName().toString();
-
-                    String a = amount.getText().toString();
-                    int amountVal = Integer.parseInt(a);
-
-                    String fromd = fromdate.getText().toString();
-                    String tod = todate.getText().toString();
-
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put("fromdate", fromd);
-                    contentValues.put("amount", amountVal);
-                    contentValues.put("todate", tod);
-                    contentValues.put("category", categoryVal);
-
-                    databaseHelper.updatebudget(id, contentValues);
+                if(fromd.compareTo(tod) == 1){
+                    Toast.makeText(Budgets.this, "From is greater than To", Toast.LENGTH_SHORT).show();
                 }
+                else{
+                    if(isAmountEmpty(amount)) {
+
+                        Categories_item categoryval = (Categories_item) spinner.getSelectedItem();
+                        String categoryVal = categoryval.getName().toString();
+
+                        String a = amount.getText().toString();
+                        int amountVal = Integer.parseInt(a);
+
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put("fromdate", fromd);
+                        contentValues.put("amount", amountVal);
+                        contentValues.put("todate", tod);
+                        contentValues.put("category", categoryVal);
+
+                        databaseHelper.updatebudget(id, contentValues);
+                    }
 
                     listView.setAdapter(new Budgetadapter(Budgets.this, databaseHelper.getbudgetlist()));
 
                     dialog.dismiss();
+                }
             }
         });
 

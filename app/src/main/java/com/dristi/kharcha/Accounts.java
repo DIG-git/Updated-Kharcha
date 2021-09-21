@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -112,7 +111,6 @@ public class Accounts extends Fragment {
     }
 
     public void addExpense() {
-
         final Dialog dialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Light_Dialog_Alert);
         dialog.setTitle("Add Expense");
 
@@ -173,7 +171,7 @@ public class Accounts extends Fragment {
                         contentValues1.put("category", categoryVal);
                         contentValues1.put("cashcredit",spinnerval);
 
-                        databaseHelper.insertexpense(contentValues);
+                        databaseHelper.insertExpense(contentValues);
 
                         if (payments.isChecked()) {
                             databaseHelper.insertPayment(contentValues1);
@@ -207,11 +205,9 @@ public class Accounts extends Fragment {
 
         dialog.setContentView(view);
         dialog.show();
-
     }
 
     public void addIncome() {
-
         final Dialog dialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Light_Dialog_Alert);
         dialog.setTitle("Add Income");
 
@@ -275,11 +271,9 @@ public class Accounts extends Fragment {
 
         dialog.setContentView(view);
         dialog.show();
-
     }
 
     public ArrayList<String> getSpinner() {
-
         ArrayList<String> spinner = new ArrayList<>();
 
         spinner.add("Choose category");
@@ -290,7 +284,6 @@ public class Accounts extends Fragment {
     }
 
     private void initlist() {
-
         categorylist = new ArrayList<>();
         categorylist.add(new Categories_item("Clothing", R.drawable.ic_clothing));
         categorylist.add(new Categories_item("Eating-out", R.drawable.ic_eating_out));
@@ -356,7 +349,6 @@ public class Accounts extends Fragment {
     }
 
     public void setcurrency() {
-
         final Dialog dialog = new Dialog(getActivity(), R.style.Theme_AppCompat_Light_Dialog_Alert);
 
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.add_income, null);
@@ -410,7 +402,6 @@ public class Accounts extends Fragment {
     }
 
     private ArrayList<String> getCurrencylist() {
-
         currencylist = new ArrayList<>();
 
         currencylist.add("Rs.");
@@ -425,6 +416,5 @@ public class Accounts extends Fragment {
         currencylist.add("元");
 
         return currencylist;
-
     }
 }

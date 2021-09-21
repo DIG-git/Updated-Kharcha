@@ -37,7 +37,6 @@ public class Expense_recycleviewAdapter extends RecyclerView.Adapter<Expense_rec
 
     @Override
     public void onBindViewHolder(@NonNull Expense_recycleviewAdapter.ViewHolder holder, int position) {
-
         final ExpenseInfo info = data.get(position);
 
         SharedPreferences preferences = activity.getSharedPreferences("Currency",0);

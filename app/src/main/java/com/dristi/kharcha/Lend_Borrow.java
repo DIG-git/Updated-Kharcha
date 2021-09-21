@@ -19,7 +19,6 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -29,7 +28,7 @@ import java.util.Calendar;
 
 public class Lend_Borrow extends AppCompatActivity {
 
-    private TextView lend,borrow;
+    private TextView lend, borrow;
 
     private ListView listView;
 
@@ -37,7 +36,7 @@ public class Lend_Borrow extends AppCompatActivity {
 
     private FloatingActionButton menu;
 
-    private EditText amount,description;
+    private EditText amount, description;
 
     private int al;
 
@@ -97,7 +96,7 @@ public class Lend_Borrow extends AppCompatActivity {
                     add_lend_borrow(al);
                 }
             });
-            listView.setAdapter(new Adapter_Listview(this,databaseHelper.getlblist(al)));
+            listView.setAdapter(new LB_adapter(this,databaseHelper.getlblist(al)));
         }
     }
 
@@ -404,6 +403,16 @@ public class Lend_Borrow extends AppCompatActivity {
 
                         databaseHelper.updatelb(id_lend,contentValues);
 
+                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                        String date = df.format(Calendar.getInstance().getTime());
+
+                        ContentValues contentValues1 = new ContentValues();
+                        contentValues.put("inst_id", id_lend);
+                        contentValues.put("date", date);
+                        contentValues.put("amount", amountVal);
+
+                        databaseHelper.insertInstallment(contentValues1);
+
                         dialog.dismiss();
                     }
                     else{
@@ -568,7 +577,7 @@ public class Lend_Borrow extends AppCompatActivity {
         else{
             lend.setText(String.valueOf(databaseHelper.getlentbalance(al)));
             borrow.setText(String.valueOf(databaseHelper.getborrowbalance(al)));
-            listView.setAdapter(new Adapter_Listview(this,databaseHelper.getlblist(al)));
+            listView.setAdapter(new LB_adapter(this,databaseHelper.getlblist(al)));
         }
     }
 

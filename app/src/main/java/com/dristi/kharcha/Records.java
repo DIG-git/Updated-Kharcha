@@ -21,17 +21,13 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import static android.widget.Toast.*;
 import static android.widget.Toast.LENGTH_SHORT;
@@ -40,7 +36,7 @@ public class Records extends Fragment{
 
     private CalendarView calendarView;
 
-    private TextView income, expense, norecord;
+    private TextView income, expense, norecord, inctot, exptot;
 
     private DatabaseHelper dbhelper;
 
@@ -51,6 +47,10 @@ public class Records extends Fragment{
     private Categories_adapter Adapter;
 
     private RecyclerView recyclerView;
+
+    private ImageView calShow;
+
+    private int calcount = 1;
 
 //    AppBarLayout appBarLayout;
 //
@@ -65,8 +65,12 @@ public class Records extends Fragment{
         income = view.findViewById(R.id.income);
         expense = view.findViewById(R.id.expense);
         norecord = view.findViewById(R.id.norecord);
+        inctot = view.findViewById(R.id.inctot);
+        exptot = view.findViewById(R.id.exptot);
 
         calendarView = view.findViewById(R.id.calendar);
+
+        calShow = view.findViewById(R.id.calShow);
 
 //        appBarLayout = view.findViewById(R.id.appbar);
 //
@@ -108,6 +112,22 @@ public class Records extends Fragment{
 
         displayexpense(getDate());
 
+        inctot.setText(String.valueOf(dbhelper.getincometot(getDate())));
+        exptot.setText(String.valueOf(dbhelper.getexpensetot(getDate())));
+
+        calShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                calcount = calcount + 1;
+                if(calcount % 2 == 0){
+                    calendarView.setVisibility(View.GONE);
+                }
+                else{
+                    calendarView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         income.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,7 +168,7 @@ public class Records extends Fragment{
 
                 setdate(datevalue);
 
-                if(incexp == "Expense"){
+                if(incexp.equals("Expense")){
                     displayexpense(getDate());
                 }
                 else{
@@ -214,7 +234,7 @@ public class Records extends Fragment{
 
             case 1:
                 id = item.getGroupId();
-                if(incexp == "Expense"){
+                if(incexp.equals("Expense")){
                     updateExpense(id);
                 }
                 else{
@@ -234,8 +254,8 @@ public class Records extends Fragment{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        if(incexp == "Expense"){
-                            dbhelper.deleteexpense(id);
+                        if(incexp.equals("Expense")){
+                            dbhelper.deleteExpense(id);
                             displayexpense(getDate());
                         }
                         else{
@@ -399,7 +419,7 @@ public class Records extends Fragment{
                     contentValues.put("category", categoryVal);
                     contentValues.put("cashcredit",spinnerval);
 
-                    dbhelper.updateexpense(id,contentValues);
+                    dbhelper.updateExpense(id,contentValues);
 
                     displayexpense(getDate());
 
@@ -422,20 +442,6 @@ public class Records extends Fragment{
         dialog.show();
 
     }
-
-    public ArrayList<String> getPaymentSpinner(){
-
-        ArrayList<String> spinner = new ArrayList<>();
-
-        spinner.add("Choose Schedule Reminder");
-        spinner.add("Daily");
-        spinner.add("Weekly");
-        spinner.add("Monthly");
-        spinner.add("Yearly");
-
-        return spinner;
-    }
-
 
     public boolean isAmountEmpty(EditText view) {
         if (view.getText().toString().length() > 0) {
@@ -491,11 +497,29 @@ public class Records extends Fragment{
     public void onResume() {
         super.onResume();
 
-        if(incexp == "Expense"){
+        if(incexp.equals("Expense")){
             displayexpense(getDate());
         }
         else{
             displayincome(getDate());
         }
+
+        inctot.setText(String.valueOf(dbhelper.getincometot(getDate())));
+        exptot.setText(String.valueOf(dbhelper.getexpensetot(getDate())));
+
+        calShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                calcount = calcount + 1;
+                if(calcount % 2 == 0){
+                    calendarView.setVisibility(View.GONE);
+                    calShow.setImageResource(R.drawable.ic_outline_keyboard_arrow_down_24);
+                }
+                else{
+                    calendarView.setVisibility(View.VISIBLE);
+                    calShow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                }
+            }
+        });
     }
 }

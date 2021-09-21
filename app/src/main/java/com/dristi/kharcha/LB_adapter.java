@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 
 import android.graphics.Color;
 import android.view.ContextMenu;
@@ -17,17 +18,18 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class Adapter_Listview extends ArrayAdapter<ExpenseInfo>{
+public class LB_adapter extends ArrayAdapter<ExpenseInfo>{
 
     private Context context;
 
     private DatabaseHelper databaseHelper;
 
-    public Adapter_Listview(@NonNull Context context, ArrayList<ExpenseInfo> list) {
+    public LB_adapter(@NonNull Context context, ArrayList<ExpenseInfo> list) {
         super(context, 0, list);
         this.context = context;
     }
@@ -38,12 +40,16 @@ public class Adapter_Listview extends ArrayAdapter<ExpenseInfo>{
 
         SharedPreferences preferences = context.getSharedPreferences("Currency",0);
 
-        final View view = LayoutInflater.from(context).inflate(R.layout.listview_inflator,null);
+        final View view = LayoutInflater.from(context).inflate(R.layout.lb_inflator,null);
 
         TextView name = view.findViewById(R.id.name),
                 currency = view.findViewById(R.id.currency),
                 description = view.findViewById(R.id.description),
                 amount = view.findViewById(R.id.amount);
+
+        CardView install = view.findViewById(R.id.install);
+
+        final ListView install_list = view.findViewById(R.id.install_list);
 
         ImageView imageView = view.findViewById(R.id.image);
 
@@ -116,6 +122,21 @@ public class Adapter_Listview extends ArrayAdapter<ExpenseInfo>{
         else{
             description.setText(info.description);
         }
+
+        final int[] i = {0};
+        install.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                i[0]++;
+                if(i[0] % 2 != 0){
+                    install_list.setVisibility(View.GONE);
+                }
+                else{
+                    install_list.setVisibility(View.VISIBLE);
+                    install_list.setAdapter((android.widget.ListAdapter) new Installment_adapter(context, databaseHelper.getInstallmentList(info.id)));
+                }
+            }
+        });
         return view;
     }
 }

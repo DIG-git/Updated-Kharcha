@@ -96,7 +96,6 @@ public class ChartFragment extends Fragment {
     }
 
     public String getnewdate(String date){
-
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calendar = Calendar.getInstance();
 
@@ -112,8 +111,7 @@ public class ChartFragment extends Fragment {
         return newdate;
     }
 
-    public void tabclick(View view)
-    {
+    public void tabclick(View view) {
         pie.setBackgroundColor(Color.TRANSPARENT);
         line.setBackgroundColor(Color.TRANSPARENT);
         if(view.getId()==R.id.pie){
@@ -322,5 +320,4 @@ public class ChartFragment extends Fragment {
         dialog.setContentView(view);
         dialog.show();
     }
-
 }

@@ -84,7 +84,6 @@ public class BudgetChartFragment extends Fragment {
     }
 
     public String getnewdate(String date){
-
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calendar = Calendar.getInstance();
 
